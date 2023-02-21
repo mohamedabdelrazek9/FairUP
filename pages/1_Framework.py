@@ -13,7 +13,7 @@ import re
 st.set_page_config(layout="wide")
 ovgu_img = Image.open('ovgu_logo.png')
 st.image(ovgu_img)
-st.title("Framework for fairness analysis and mitigation for user profiling based Graph Neural Network 🚀")
+st.title("FairUP: a Framework for Fairness Analysis of Graph Neural Network-Based User Profiling Models. 🚀")
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -510,7 +510,7 @@ elif "RHGN" in model_type and len(model_type) == 1:
 
     st.markdown("### Enter the RHGN parametrs")
     num_hidden = st.number_input("Enter the number of hidden layers", value=0)
-    lr_rhgn = st.number_input("Enter the learning rate", value=0)
+    lr_rhgn = st.number_input("Enter the learning rate")
     epochs_rhgn = st.number_input("Enter the number of epochs", value=0)
     clip = st.number_input("Enter the clip value" , value=0)
 
@@ -527,6 +527,7 @@ elif "FairGNN" in model_type and len(model_type) == 1:
     #lr_fairgnn = st.number_input("Enter the learning rate" , value=0)
     epochs_fairgnn = st.number_input("Enter the number of epochs" , value=0)
     sens_number =  st.number_input("Enter the sens number" , value=0)
+    label_number = st.number_input("Enter the label number", value=0)
     num_hidden = st.number_input("Enter the hidden layer number" , value=0)
     alpha = st.number_input("Enter alpha value" , value=0)
     beta = st.number_input("Enter beta value", value=0)
@@ -607,9 +608,9 @@ if st.button("Begin experiment"):
             st.text(line.strip())
             if "Test_final:" in line and 'FairGNN' in model_type:
                 result = line.strip()
-                #st.text(result)
+                st.text(result)
             if 'accuracy' in line and 'RHGN' in model_type:
-                #st.text(line.strip())
+                st.text(line.strip())
                 line = line.strip() + 'end'
                 acc = re.search('accuracy                         (.+?)end', line)
                 acc = acc.group(1)
@@ -639,6 +640,7 @@ if st.button("Begin experiment"):
     print(len(model_type))
     print(model_type)
     if len(model_type) == 1 and 'FairGNN' in model_type:
+        st.text(result)
         acc = re.search('accuracy:(.+?)roc', result)
         f1 = re.search('F1:(.+?)acc_sens', result)
 

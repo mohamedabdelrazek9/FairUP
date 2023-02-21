@@ -18,7 +18,7 @@ st.set_page_config(
 
 ovgu_img2 = Image.open('ovgu_logo.png')
 st.image(ovgu_img2)
-st.title("Framework for fairness analysis and mitigation for user profiling based Graph Neural Network 🚀")
+st.title("FairUP: a Framework for Fairness Analysis of Graph Neural Network-Based User Profiling Models. 🚀")
 ovgu_img = Image.open('fairup_architecture-1.png')
 #ovgu_img = ovgu_img.resize((1000, 1000))
 st.markdown('##### We have developed a comprehensive framework for Graph Neural Networks-based user profiling models that empowers researchers and users to simultaneously train multiple models and analyze their outcomes. This framework includes tools for mitigating bias, ensuring fairness, and increasing model interpretability. Our approach allows for the incorporation of debiasing techniques into the training process, which helps to minimize the impact of societal biases on model performance. In addition, our framework supports multiple evaluation metrics, enabling the user to compare and contrast the performance of different models.')
