@@ -552,154 +552,154 @@ elif "CatGCN" in model_type and len(model_type) == 1:
 
 
 
+if len(model_type) != 0:
+    if st.button("Begin experiment"):
+        with st.spinner("Loading..."):
+            # Simulate a long-running operation
+            time.sleep(2)
+            ssh = paramiko.SSHClient()
+            # Automatically add the server's host key (for the first connection only)
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-if st.button("Begin experiment"):
-    with st.spinner("Loading..."):
-        # Simulate a long-running operation
-        time.sleep(2)
-        ssh = paramiko.SSHClient()
-        # Automatically add the server's host key (for the first connection only)
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            # Connect to the remote server
+            ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed')
 
-        # Connect to the remote server
-        ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed')
+            if len(model_type) == 1 and 'FairGNN' in model_type:
+                stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epoch {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN --type 1 --sens_attr {} --predict_attr {} --label_number 100 --no-cuda True --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr))
+            if len(model_type) == 1 and 'RHGN' in model_type:
+                if predict_attr == 'final_gender_code':
+                    predict_attr = 'bin_gender'
+                if sens_attr == 'age_level':
+                    sens_attr = 'bin_age'
+                stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --dataset_path ../ --max_lr {} --num_hidden {} --clip {} --epochs {} --label {} --sens_attr {} --type 1 --model_type RHGN --dataset_name {} --dataset_user_id_name userid --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_rhgn, num_hidden, clip, epochs_rhgn, predict_attr, sens_attr, dataset))
+            # CatGCN
+            if len(model_type) == 1 and 'CatGCN' in model_type:
+                if predict_attr == 'final_gender_code':
+                    predict_attr = 'bin_gender'
+                if sens_attr == 'age_level':
+                    sens_attr = 'bin_age'
+                stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --lr {} --weight_decay {} --dropout 0.1 --diag-probe {} --graph-refining {} --aggr-pooling mean --grn_units {} --bi-interaction {} --nfm-units none --graph-layer pna --gnn-hops 1 --gnn-units none --aggr-style sum --balance-ratio 0.7 --sens_attr {} --label {} --dataset_name {} --dataset_path ../ --type 1 --model_type CatGCN --dataset_user_id_name userid --alpha 0.5 --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_catgcn, weight_decay, diag_probe, graph_refining, grn_units, bi_interaction, sens_attr, predict_attr, dataset))
 
-        if len(model_type) == 1 and 'FairGNN' in model_type:
-            stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epoch {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN --type 1 --sens_attr {} --predict_attr {} --label_number 100 --no-cuda True --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr))
-        if len(model_type) == 1 and 'RHGN' in model_type:
-            if predict_attr == 'final_gender_code':
-                predict_attr = 'bin_gender'
-            if sens_attr == 'age_level':
-                sens_attr = 'bin_age'
-            stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --dataset_path ../ --max_lr {} --num_hidden {} --clip {} --epochs {} --label {} --sens_attr {} --type 1 --model_type RHGN --dataset_name {} --dataset_user_id_name userid --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_rhgn, num_hidden, clip, epochs_rhgn, predict_attr, sens_attr, dataset))
-        # CatGCN
-        if len(model_type) == 1 and 'CatGCN' in model_type:
-            if predict_attr == 'final_gender_code':
-                predict_attr = 'bin_gender'
-            if sens_attr == 'age_level':
-                sens_attr = 'bin_age'
-            stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --lr {} --weight_decay {} --dropout 0.1 --diag-probe {} --graph-refining {} --aggr-pooling mean --grn_units {} --bi-interaction {} --nfm-units none --graph-layer pna --gnn-hops 1 --gnn-units none --aggr-style sum --balance-ratio 0.7 --sens_attr {} --label {} --dataset_name {} --dataset_path ../ --type 1 --model_type CatGCN --dataset_user_id_name userid --alpha 0.5 --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_catgcn, weight_decay, diag_probe, graph_refining, grn_units, bi_interaction, sens_attr, predict_attr, dataset))
-
-        # FairGNN and RHGN
-        if len(model_type) == 2 and 'FairGNN' in model_type and 'RHGN' in model_type:
-            if predict_attr == 'final_gender_code':
-                label = 'bin_gender'
-            if sens_attr == 'age_level':
-                sens_attr_rhgn = 'bin_age'
-            stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epoch {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN RHGN --type 1 --sens_attr {} --label {} --predict_attr {} --label_number 100 --no-cuda True --max_lr {} --clip {} --epochs {}  --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr, predict_attr, lr_rhgn, clip, epochs_rhgn))
+            # FairGNN and RHGN
+            if len(model_type) == 2 and 'FairGNN' in model_type and 'RHGN' in model_type:
+                if predict_attr == 'final_gender_code':
+                    label = 'bin_gender'
+                if sens_attr == 'age_level':
+                    sens_attr_rhgn = 'bin_age'
+                stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epoch {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN RHGN --type 1 --sens_attr {} --label {} --predict_attr {} --label_number 100 --no-cuda True --max_lr {} --clip {} --epochs {}  --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr, predict_attr, lr_rhgn, clip, epochs_rhgn))
+                
+            output_queue = queue.Queue()
+            output_thred = threading.Thread(target=read_output, args=(stderr, output_queue))
+            output_thred.start()
             
-        output_queue = queue.Queue()
-        output_thred = threading.Thread(target=read_output, args=(stderr, output_queue))
-        output_thred.start()
+            while True:
+                try:
+                    line = output_queue.get_nowait()
+                    #st.text(line)
+                except queue.Empty:
+                    if output_thred.is_alive():
+                        continue
+                    else:
+                        break
+
+            output_thred.join()
+            all_output = []
+            for line in stdout:
+                #st.text(line.strip())
+                if "Test_final:" in line and 'FairGNN' in model_type:
+                    result = line.strip()
+                    #st.text(result)
+                if 'accuracy' in line and 'RHGN' in model_type:
+                    #st.text(line.strip())
+                    line = line.strip() + 'end'
+                    acc = re.search('accuracy                         (.+?)end', line)
+                    acc = acc.group(1)
+                    acc_rhgn = acc.split()[0]
+                if 'F1 score:' in line:
+                    f1 = '.'.join(line.split('.')[0:2])
+                    f1_rhgn = '{:.3f}'.format(float(f1.split()[-1]))
+                if 'Statistical Parity Difference (SPD):' in line:
+                    spd_rhgn = '{:.3f}'.format(float(line.split()[-1]))
+
+                if 'Equal Opportunity Difference (EOD):' in line:
+                    eod_rhgn = '{:.3f}'.format(float(line.split()[-1]))
+
+                if 'Overall Accuracy Equality Difference (OAED):' in line:
+                    oaed_rhgn = '{:.3f}'.format(float(line.split()[-1]))
+
+                if 'Treatment Equality Difference (TED):' in line:
+                    ted_rhgn = '{:.3f}'.format(float(line.split()[-1]))
+                #all_output.append(line.strip())
+            # Close the connection
+            ssh.close()
+
+        st.success("Done!")
+
         
-        while True:
-            try:
-                line = output_queue.get_nowait()
-                #st.text(line)
-            except queue.Empty:
-                if output_thred.is_alive():
-                    continue
-                else:
-                    break
+        st.markdown("## Training Results:")
+        print(len(model_type))
+        print(model_type)
+        if len(model_type) == 1 and 'FairGNN' in model_type:
+            st.text(result)
+            acc = re.search('accuracy:(.+?)roc', result)
+            f1 = re.search('F1:(.+?)acc_sens', result)
 
-        output_thred.join()
-        all_output = []
-        for line in stdout:
-            st.text(line.strip())
-            if "Test_final:" in line and 'FairGNN' in model_type:
-                result = line.strip()
-                st.text(result)
-            if 'accuracy' in line and 'RHGN' in model_type:
-                st.text(line.strip())
-                line = line.strip() + 'end'
-                acc = re.search('accuracy                         (.+?)end', line)
-                acc = acc.group(1)
-                acc_rhgn = acc.split()[0]
-            if 'F1 score:' in line:
-                f1 = '.'.join(line.split('.')[0:2])
-                f1_rhgn = '{:.3f}'.format(float(f1.split()[-1]))
-            if 'Statistical Parity Difference (SPD):' in line:
-                spd_rhgn = '{:.3f}'.format(float(line.split()[-1]))
-
-            if 'Equal Opportunity Difference (EOD):' in line:
-                eod_rhgn = '{:.3f}'.format(float(line.split()[-1]))
-
-            if 'Overall Accuracy Equality Difference (OAED):' in line:
-                oaed_rhgn = '{:.3f}'.format(float(line.split()[-1]))
-
-            if 'Treatment Equality Difference (TED):' in line:
-                ted_rhgn = '{:.3f}'.format(float(line.split()[-1]))
-            #all_output.append(line.strip())
-        # Close the connection
-        ssh.close()
-
-    st.success("Done!")
-
-    
-    st.markdown("## Training Results:")
-    print(len(model_type))
-    print(model_type)
-    if len(model_type) == 1 and 'FairGNN' in model_type:
-        st.text(result)
-        acc = re.search('accuracy:(.+?)roc', result)
-        f1 = re.search('F1:(.+?)acc_sens', result)
-
-        spd = re.search('parity:(.+?)equality', result)
-        eod = re.search('equality:(.+?)oaed', result)
-        oaed = re.search('oaed:(.+?)treatment equality', result)
-        ted = re.search('treatment equality(.+?)end', result)
-        data = {'Model': [model_type],
-            'Accuracy': [acc.group(1)],
-            'F1': [f1.group(1)],
-            'SPD': [spd.group(1)],
-            'EOD': [eod.group(1)],
-            'OAED': [oaed.group(1)],
-            'TED': [ted.group(1)]
+            spd = re.search('parity:(.+?)equality', result)
+            eod = re.search('equality:(.+?)oaed', result)
+            oaed = re.search('oaed:(.+?)treatment equality', result)
+            ted = re.search('treatment equality(.+?)end', result)
+            data = {'Model': [model_type],
+                'Accuracy': [acc.group(1)],
+                'F1': [f1.group(1)],
+                'SPD': [spd.group(1)],
+                'EOD': [eod.group(1)],
+                'OAED': [oaed.group(1)],
+                'TED': [ted.group(1)]
+                }
+            
+        elif len(model_type) == 1 and 'RHGN' in model_type:
+            #print('all_output:', all_output)
+            data =  {'Model': [model_type],
+            'Accuracy': [acc_rhgn],
+            'F1': [f1_rhgn],
+            'SPD': [spd_rhgn],
+            'EOD': [eod_rhgn],
+            'OAED': [oaed_rhgn],
+            'TED': [ted_rhgn]
             }
+
+        elif len(model_type) == 2 and 'RHGN' in model_type and 'FairGNN' in model_type:
+
+            acc = re.search('a:(.+?)roc', result)
+            f1 = re.search('F1:(.+?)acc_sens', result)
+
+            spd = re.search('parity:(.+?)equality', result)
+            eod = re.search('equality:(.+?)oaed', result)
+            oaed = re.search('oaed:(.+?)treatment equality', result)
+            ted = re.search('treatment equality(.+?)end', result)
+
+            ind_fairgnn = model_type.index('FairGNN')
+            ind_rhgn = model_type.index('RHGN')
+            data =  {'Model': [model_type[ind_fairgnn], model_type[ind_rhgn]],
+            'Accuracy': [acc.group(1), acc_rhgn],
+            'F1': [f1.group(1), f1_rhgn],
+            'SPD': [spd.group(1), spd_rhgn],
+            'EOD': [eod.group(1), eod_rhgn],
+            'OAED': [oaed.group(1), oaed_rhgn],
+            'TED': [ted.group(1), ted_rhgn]
+            }
+
+        df = pd.DataFrame(data)
+
+        #st.dataframe(df, width=5000)
+        # set the display options for the DataFrame
+        pd.set_option("display.max_columns", None)
+        pd.set_option("display.width", 100)
+
         
-    elif len(model_type) == 1 and 'RHGN' in model_type:
-        #print('all_output:', all_output)
-        data =  {'Model': [model_type],
-        'Accuracy': [acc_rhgn],
-        'F1': [f1_rhgn],
-        'SPD': [spd_rhgn],
-        'EOD': [eod_rhgn],
-        'OAED': [oaed_rhgn],
-        'TED': [ted_rhgn]
-        }
 
-    elif len(model_type) == 2 and 'RHGN' in model_type and 'FairGNN' in model_type:
-
-        acc = re.search('a:(.+?)roc', result)
-        f1 = re.search('F1:(.+?)acc_sens', result)
-
-        spd = re.search('parity:(.+?)equality', result)
-        eod = re.search('equality:(.+?)oaed', result)
-        oaed = re.search('oaed:(.+?)treatment equality', result)
-        ted = re.search('treatment equality(.+?)end', result)
-
-        ind_fairgnn = model_type.index('FairGNN')
-        ind_rhgn = model_type.index('RHGN')
-        data =  {'Model': [model_type[ind_fairgnn], model_type[ind_rhgn]],
-        'Accuracy': [acc.group(1), acc_rhgn],
-        'F1': [f1.group(1), f1_rhgn],
-        'SPD': [spd.group(1), spd_rhgn],
-        'EOD': [eod.group(1), eod_rhgn],
-        'OAED': [oaed.group(1), oaed_rhgn],
-        'TED': [ted.group(1), ted_rhgn]
-        }
-
-    df = pd.DataFrame(data)
-
-    #st.dataframe(df, width=5000)
-    # set the display options for the DataFrame
-    pd.set_option("display.max_columns", None)
-    pd.set_option("display.width", 100)
-
-    
-
-    # display the DataFrame in Streamlit
-    st.write(df)
+        # display the DataFrame in Streamlit
+        st.write(df)
 
     #st.write("The logs of the experiment can be found at: mohamed9/Experiments-RHGN-CatGCN-Alibaba")
     #st.markdown("The logs of the experiment can be found at: **mohamed9/Experiments-RHGN-FairGNN-Alibaba**")
