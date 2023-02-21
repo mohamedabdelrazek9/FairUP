@@ -9,6 +9,7 @@ import queue
 import warnings
 import re
 
+
 st.set_page_config(layout="wide")
 ovgu_img = Image.open('ovgu_logo.png')
 st.image(ovgu_img)
