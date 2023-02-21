@@ -11,7 +11,7 @@ import re
 
 
 st.set_page_config(layout="wide")
-ovgu_img = Image.open('ovgu_logo.png')
+ovgu_img = Image.open('pages/ovgu_logo.png')
 st.image(ovgu_img)
 st.title("FairUP: a Framework for Fairness Analysis of Graph Neural Network-Based User Profiling Models. 🚀")
 
