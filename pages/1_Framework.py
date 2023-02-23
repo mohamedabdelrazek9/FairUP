@@ -563,7 +563,7 @@ if len(model_type) != 0:
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
             # Connect to the remote server
-            ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed', banner_timeout=200, port=443)
+            ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed')
             #ssh.connect('141.44.31.206', port=443, banner_timeout=200)
             stdin, stdout, stderr =  ssh.exec_command('ls')
             print(stdout)
