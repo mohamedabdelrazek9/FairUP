@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d17" for="node" attr.name="price" attr.type="double"/>
+<key id="d16" for="node" attr.name="brand" attr.type="double"/>
+<key id="d15" for="node" attr.name="customer" attr.type="long"/>
+<key id="d14" for="node" attr.name="campaign_id" attr.type="long"/>
+<key id="d13" for="node" attr.name="cate_id" attr.type="long"/>
+<key id="d12" for="node" attr.name="clk" attr.type="long"/>
+<key id="d11" for="node" attr.name="nonclk" attr.type="long"/>
+<key id="d10" for="node" attr.name="pid" attr.type="string"/>
+<key id="d9" for="node" attr.name="adgroup_id" attr.type="long"/>
+<key id="d8" for="node" attr.name="time_stamp" attr.type="long"/>
+<key id="d7" for="node" attr.name="new_user_class_level" attr.type="double"/>
+<key id="d6" for="node" attr.name="occupation" attr.type="double"/>
+<key id="d5" for="node" attr.name="shopping_level" attr.type="double"/>
+<key id="d4" for="node" attr.name="pvalue_level" attr.type="double"/>
+<key id="d3" for="node" attr.name="age_level" attr.type="double"/>
+<key id="d2" for="node" attr.name="final_gender_code" attr.type="double"/>
+<key id="d1" for="node" attr.name="cms_group_id" attr.type="double"/>
+<key id="d0" for="node" attr.name="cms_segid" attr.type="double"/>
+<graph edgedefault="directed"><node id="523">
+  <data key="d0">5.0</data>
+  <data key="d1">2.0</data>
+  <data key="d2">2.0</data>
+  <data key="d3">2.0</data>
+  <data key="d4">1.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">1.0</data>
+  <data key="d7">2.0</data>
+  <data key="d8">1494506876</data>
+  <data key="d9">95657</data>
+  <data key="d10">430548_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="830671">
+  <data key="d0">34.0</data>
+  <data key="d1">4.0</data>
+  <data key="d2">2.0</data>
+  <data key="d3">4.0</data>
+  <data key="d4">3.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">3.0</data>
+  <data key="d8">1494668843</data>
+  <data key="d9">95657</data>
+  <data key="d10">430539_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="567632">
+  <data key="d0">66.0</data>
+  <data key="d1">9.0</data>
+  <data key="d2">1.0</data>
+  <data key="d3">3.0</data>
+  <data key="d4">2.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">2.0</data>
+  <data key="d8">1494603840</data>
+  <data key="d9">95657</data>
+  <data key="d10">430539_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="16333">
+  <data key="d0">91.0</data>
+  <data key="d1">11.0</data>
+  <data key="d2">1.0</data>
+  <data key="d3">5.0</data>
+  <data key="d4">2.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">2.0</data>
+  <data key="d8">1494561928</data>
+  <data key="d9">95657</data>
+  <data key="d10">430539_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="521847">
+  <data key="d0">20.0</data>
+  <data key="d1">3.0</data>
+  <data key="d2">2.0</data>
+  <data key="d3">3.0</data>
+  <data key="d4">2.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">3.0</data>
+  <data key="d8">1494579049</data>
+  <data key="d9">95657</data>
+  <data key="d10">430548_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="227111">
+  <data key="d0">8.0</data>
+  <data key="d1">2.0</data>
+  <data key="d2">2.0</data>
+  <data key="d3">2.0</data>
+  <data key="d4">2.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">3.0</data>
+  <data key="d8">1494559984</data>
+  <data key="d9">95657</data>
+  <data key="d10">430539_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="632984">
+  <data key="d0">89.0</data>
+  <data key="d1">11.0</data>
+  <data key="d2">1.0</data>
+  <data key="d3">5.0</data>
+  <data key="d4">1.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">4.0</data>
+  <data key="d8">1494566502</data>
+  <data key="d9">95657</data>
+  <data key="d10">430548_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="912028">
+  <data key="d0">20.0</data>
+  <data key="d1">3.0</data>
+  <data key="d2">2.0</data>
+  <data key="d3">3.0</data>
+  <data key="d4">2.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">3.0</data>
+  <data key="d8">1494276088</data>
+  <data key="d9">95657</data>
+  <data key="d10">430539_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="120208">
+  <data key="d0">77.0</data>
+  <data key="d1">10.0</data>
+  <data key="d2">1.0</data>
+  <data key="d3">4.0</data>
+  <data key="d4">1.0</data>
+  <data key="d5">3.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">2.0</data>
+  <data key="d8">1494563600</data>
+  <data key="d9">95657</data>
+  <data key="d10">430548_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+<node id="390080">
+  <data key="d0">6.0</data>
+  <data key="d1">2.0</data>
+  <data key="d2">2.0</data>
+  <data key="d3">2.0</data>
+  <data key="d4">2.0</data>
+  <data key="d5">2.0</data>
+  <data key="d6">0.0</data>
+  <data key="d7">4.0</data>
+  <data key="d8">1494296612</data>
+  <data key="d9">95657</data>
+  <data key="d10">430539_1007</data>
+  <data key="d11">1</data>
+  <data key="d12">0</data>
+  <data key="d13">6412</data>
+  <data key="d14">160512</data>
+  <data key="d15">82513</data>
+  <data key="d16">26994.0</data>
+  <data key="d17">619.0</data>
+</node>
+</graph></graphml>
