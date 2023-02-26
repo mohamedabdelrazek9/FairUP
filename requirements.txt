@@ -13,5 +13,4 @@ scipy==1.7.3
 texttable==1.6.4
 tqdm==4.62.3
 torch 
-torch_scatter==2.0.3 
 torch_geometric==2.0.9
