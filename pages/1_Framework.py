@@ -8,7 +8,7 @@ import threading
 import queue
 import warnings
 import re
-
+import subprocess
 
 st.set_page_config(layout="wide")
 ovgu_img = Image.open('imgs/logo_ovgu_fin_en.jpg')
@@ -361,22 +361,25 @@ def read_output(stdout, queue):
 def execute_command_fairness(dataset, sens_attr, predict_attr):
     with st.spinner("Loading..."):
         time.sleep(1)
-        ssh = paramiko.SSHClient()
+        #ssh = paramiko.SSHClient()
         # Automatically add the server's host key (for the first connection only)
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        #ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         # Connect to the remote server
-        ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed')
-        if dataset == 'nba':
-            stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../nba.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
-        elif dataset == 'alibaba':
-            stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../alibaba_small.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
-        elif dataset == 'tecent':
-            stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../JD_small.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
-        elif dataset == 'pokec_z':
-            stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../Master-Thesis-dev/region_job.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
-        output_queue = queue.Queue()
+        #ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed')
+        
+        #if dataset == 'nba':
+        #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../nba.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
+        #elif dataset == 'alibaba':
+        #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../alibaba_small.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
+        #elif dataset == 'tecent':
+        #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../JD_small.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
+        #elif dataset == 'pokec_z':
+        #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../Master-Thesis-dev/region_job.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
+        #output_queue = queue.Queue()
         # start a thread to continuously read the output from the stdout object
+        test = 'pwd'
+        st.text(os.system(test))
         output_thread = threading.Thread(target=read_output, args=(stderr_new, output_queue))
         output_thread.start()
 
@@ -409,7 +412,10 @@ if fairness_evaluation == "Yes":
     # then show fairness
     # add info box
     #dataset_fairness = st.write('Dataset Fairness: 1.57 (Fair)') 
-        execute_command_fairness(dataset, sens_attr, predict_attr)
+        #execute_command_fairness(dataset, sens_attr, predict_attr)
+        output = os.popen('cd src &&  python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
+        st.text(output)
+        print(output)
     
 
 #####################
@@ -555,7 +561,7 @@ elif "CatGCN" in model_type and len(model_type) == 1:
 if len(model_type) != 0:
     if st.button("Begin experiment"):
         with st.spinner("Loading..."):
-            # Simulate a long-running operation
+
             time.sleep(2)
             ssh = paramiko.SSHClient()
             port = 443
@@ -563,7 +569,7 @@ if len(model_type) != 0:
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
             # Connect to the remote server
-            ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed')
+            ssh.connect('https://dtdh206.cs.uni-magdeburg.de:443')
             #ssh.connect('141.44.31.206', port=443, banner_timeout=200)
             stdin, stdout, stderr =  ssh.exec_command('ls')
             print(stdout)
