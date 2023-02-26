@@ -1,5 +1,6 @@
 paramiko==2.8.1
 dgl==0.6.1
+h5py
 fitlog==0.9.13
 hickle==4.0.4
 matplotlib==3.5.1
