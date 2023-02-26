@@ -13,5 +13,8 @@ scipy==1.7.3
 texttable==1.6.4
 tqdm==4.62.3
 torch 
+torch_scatter 
+torch_sparse 
+torch_cluster 
+torch_spline_conv 
 torch_geometric
-torch_scatter
