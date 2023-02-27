@@ -13,12 +13,10 @@ import subprocess
 if 'STREAMLIT_PRODUCTION' in os.environ:
     print('test')
     # Running on Streamlit Sharing
-    with open('test.yml', 'r') as file:
+    with open('test_new.yml', 'r') as file:
         environment = file.read()
-    with open('test_tmp.yml', 'w') as file:
-        file.write(environment.replace('prefix: /', ''))
-    os.system('conda env create -f test_tmp.yml')
-    os.system('source activate ./envs/$(head -1 test_tmp.yml | cut -d " " -f2)')
+    os.system('conda env create -f test_new.yml')
+    os.system('source activate test_new')
 
 st.set_page_config(layout="wide")
 ovgu_img = Image.open('imgs/logo_ovgu_fin_en.jpg')
@@ -423,12 +421,12 @@ if fairness_evaluation == "Yes":
     # add info box
     #dataset_fairness = st.write('Dataset Fairness: 1.57 (Fair)') 
         #execute_command_fairness(dataset, sens_attr, predict_attr)
-        with open('test_new.yml', 'r') as file:
-            environment = file.read()
+        #with open('test_new.yml', 'r') as file:
+        #    environment = file.read()
         #with open('test_tmp.yml', 'w') as file:
         #    file.write(environment.replace('prefix: /', ''))
-        os.system('conda env create --file test_new.yml --name streamlit_env_new')
-        os.system('conda activate streamlit_env_new')
+        #os.system('conda env create --file test_new.yml --name streamlit_env_new')
+        #os.system('conda activate streamlit_env_new')
         commands = os.popen('cd src && python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
         #output = os.popen('cd')
         #output = os.popen('python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
