@@ -2,24 +2,18 @@ name: test
 channels:
   - defaults
 dependencies:
-  - ca-certificates=2022.07.19=h06a4308_0
-  - certifi=2022.6.15=py38h06a4308_0
-  - ld_impl_linux-64=2.38=h1181459_1
-  - libedit=3.1.20210910=h7f8727e_0
-  - libffi=3.2.1=hf484d3e_1007
-  - libgcc-ng=11.2.0=h1234567_1
-  - libstdcxx-ng=11.2.0=h1234567_1
-  - ncurses=6.3=h5eee18b_3
-  - openssl=1.1.1q=h7f8727e_0
-  - pip=22.1.2=py38h06a4308_0
-  - python=3.8.1=h0371630_1
-  - readline=7.0=h7b6447c_5
-  - setuptools=63.4.1=py38h06a4308_0
-  - sqlite=3.33.0=h62c20be_0
-  - tk=8.6.12=h1ccaba5_0
-  - wheel=0.37.1=pyhd3eb1b0_0
-  - xz=5.2.5=h7f8727e_1
-  - zlib=1.2.12=h7f8727e_2
+  - ca-certificates=2023.01.10
+  - certifi=2022.6.15
+  - libffi=3.2.1
+  - openssl=1.1.1q
+  - pip=22.1.2
+  - python=3.8.1
+  - setuptools=63.4.1
+  - sqlite=3.33.0
+  - tk=8.6.12
+  - wheel=0.37.1
+  - xz=5.2.5
+  - zlib=1.2.12
   - pip:
     - alabaster==0.7.12
     - altair==4.2.2
@@ -179,4 +173,3 @@ dependencies:
     - yacs==0.1.8
     - zipp==3.14.0
 prefix: /home/abdelrazek/anaconda3/envs/test
-
