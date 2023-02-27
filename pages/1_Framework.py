@@ -10,13 +10,12 @@ import warnings
 import re
 import subprocess
 
-if 'STREAMLIT_PRODUCTION' in os.environ:
-    print('test')
-    # Running on Streamlit Sharing
-    with open('test_new.yml', 'r') as file:
-        environment = file.read()
-    os.system('conda env create -f test_new.yml')
-    os.system('source activate test_new')
+ # Running on Streamlit Sharing
+with open('test_new.yml', 'r') as file:
+    environment = file.read()
+os.system('conda env create -f test_new.yml')
+os.system('source activate test_new')
+   
 
 st.set_page_config(layout="wide")
 ovgu_img = Image.open('imgs/logo_ovgu_fin_en.jpg')
