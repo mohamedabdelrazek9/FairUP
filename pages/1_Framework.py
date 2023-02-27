@@ -413,10 +413,11 @@ if fairness_evaluation == "Yes":
     # add info box
     #dataset_fairness = st.write('Dataset Fairness: 1.57 (Fair)') 
         #execute_command_fairness(dataset, sens_attr, predict_attr)
-        commands = os.popen('cd src && pip install -r requirements.txt')
-        output = os.popen('python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
-        st.text(output)
-        print(output)
+        commands = os.popen('cd src && pip install -r requirements.txt && python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
+        #output = os.popen('cd')
+        #output = os.popen('python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
+        #st.text(output)
+        print(commands)
     
 
 #####################

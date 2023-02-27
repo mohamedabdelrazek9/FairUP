@@ -1,5 +1,16 @@
 import streamlit as st
 from PIL import Image
+import os
+
+if 'STREAMLIT_PRODUCTION' in os.environ:
+    # Running on Streamlit Sharing
+    with open('test.yml', 'r') as file:
+        environment = file.read()
+    with open('test_tmp.yml', 'w') as file:
+        file.write(environment.replace('prefix: /', ''))
+    os.system('conda env create -f test_tmp.yml')
+    os.system('source activate ./envs/$(head -1 test_tmp.yml | cut -d " " -f2)')
+
 
 st.set_page_config(
     page_title="Homepage",
