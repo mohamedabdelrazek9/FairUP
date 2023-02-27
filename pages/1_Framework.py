@@ -10,14 +10,12 @@ import warnings
 import re
 import subprocess
 
- # Running on Streamlit Sharing
-with open('test_new.yml', 'r') as file:
-    environment = file.read()
-os.system('conda env create -f test_new.yml')
-os.system('source activate test_new')
-   
+
+
 
 st.set_page_config(layout="wide")
+st.header('Note:  We are running out with GPU problems. The GNN models are currently running on CPU and some of the Framework capabilities may not be available. We apologise for the inconvenience and we will fix that soon.')
+st.header('')
 ovgu_img = Image.open('imgs/logo_ovgu_fin_en.jpg')
 st.image(ovgu_img)
 st.title("FairUP: a Framework for Fairness Analysis of Graph Neural Network-Based User Profiling Models. 🚀")
@@ -25,7 +23,6 @@ st.title("FairUP: a Framework for Fairness Analysis of Graph Neural Network-Base
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore")
-
 
 nba_columns = ['user_id', 'SALARY', 'AGE', 'MP', 'FG', 'FGA', 'FG%', '3P', '3PA',
        '3P%', '2P', '2PA', '2P%', 'eFG%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB',
