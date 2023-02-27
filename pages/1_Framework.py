@@ -14,7 +14,8 @@ import subprocess
 
 
 st.set_page_config(layout="wide")
-st.header('Note:  We are running out with GPU problems. The GNN models are currently running on CPU and some of the Framework capabilities may not be available. We apologise for the inconvenience and we will fix that soon.')
+st.warning('Note:  We are running out with GPU problems. The GNN models are currently running on CPU and some of the Framework capabilities may not be available. We apologise for the inconvenience and we will fix that soon.', icon="⚠️")
+
 st.header('')
 ovgu_img = Image.open('imgs/logo_ovgu_fin_en.jpg')
 st.image(ovgu_img)
