@@ -50,12 +50,13 @@ Notes:
 * the file `requirements.txt` installs all dependencies for both models;
 * the dependencies including `cu113` are meant to run on **CUDA 11.3** (install the correct package based on your version of CUDA).
 
-## Web application
-Available [here](https://mohamedabdelrazek9-fairup-homepage-gv365a.streamlit.app/)
+## Demonstration
+* [Web app](https://mohamedabdelrazek9-fairup-homepage-gv365a.streamlit.app/)
+* [Demo video](https://bit.ly/FairUP-demo-video)
 
-## Later updates
-- Integration of new GNN models.
-- Integration of new datasets.
+## Next steps
+- [ ] Adding new GNN models.
+- [ ] Adding more datasets and fairness metrics.
 
 ## Contact
 - **M.Sc. Erasmo Purificato: erasmo.purificato@ovgu.com**
