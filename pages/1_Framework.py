@@ -479,6 +479,8 @@ if "RHGN" in model_type and "FairGNN" in model_type:
 
     st.markdown("### Enter the FairGNN parameters")
     lr_fairgnn = st.number_input("Enter the learning rate for FairGNN")
+    with st.expander("More information"):
+        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
     epochs_fairgnn = st.number_input("Enter the number of epochs for FairGNN", value=0)
     with st.expander("More information"):
         st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
@@ -553,13 +555,19 @@ elif "FairGNN" in model_type and len(model_type) == 1:
 
 
     st.markdown("### Enter the FairGNN parameters")
-    #lr_fairgnn = st.number_input("Enter the learning rate" , value=0)
+    lr_fairgnn = st.number_input("Enter the learning rate")
     epochs_fairgnn = st.number_input("Enter the number of epochs" , value=0)
+    with st.expander("More information"):
+        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
     sens_number =  st.number_input("Enter the sens number" , value=0)
     label_number = st.number_input("Enter the label number", value=0)
     num_hidden = st.number_input("Enter the hidden layer number" , value=0)
     alpha = st.number_input("Enter alpha value" , value=0)
+    with st.expander("More information"):
+        st.write("Refers to the regularization parameter that controls the amount of L2 regularization applied to the model's weights during the training process.")
     beta = st.number_input("Enter beta value", value=0)
+    with st.expander("More information"):
+        st.write("Refers to the momentum parameter that controls how much the optimizer should take into account the previous update when computing the current update to the model's weights during the training process.")
 
 
 elif "CatGCN" in model_type and len(model_type) == 1:
