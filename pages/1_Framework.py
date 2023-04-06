@@ -508,14 +508,28 @@ if "RHGN" in model_type and "CatGCN" in model_type:
 
     st.markdown("### Enter the RHGN parameters")
     num_hidden = st.text_input("Enter the number of hidden layers")
-    lr_rhgn = st.number_input("Enter the learning rate", value=0)
+    with st.expander("More information"):
+        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
+    lr_rhgn = st.number_input("Enter the learning rate")
+    with st.expander("More information"):
+        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
     epochs_rhgn = st.number_input("Enter the number of epochs", value=0)
+    with st.expander("More information"):
+        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
     clip = st.number_input("Enter the clip value", value=0)
+    with st.expander("More information"):
+        st.write("The clip number is a hyperparameter that determines the maximum value that the gradient can take. If the gradient exceeds this value, it is clipped (i.e., truncated to the maximum value).")
 
     st.markdown("### Enter the CatGCN parameters")
     weight_decay = st.number_input("Enter the weight decay value" )
-    lr_catgcn = st.number_input("Enter the learning rate", value=0)
+    with st.expander("More information"):
+        st.write("The parameters that controls the amount the weights will exponentially decay to zero.")
+    lr_catgcn = st.number_input("Enter the learning rate")
+    with st.expander("More information"):
+        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
     epochs_catgcn = st.number_input("Enter the number of epochs", value=0)
+    with st.expander("More information"):
+        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
     diag_probe = st.number_input("Enter the diag probe value" , value=0)
     graph_refining = st.selectbox("Choose the graph refining approach", ("agc", "fignn", "none"))
     grn_units = st.number_input("Enter the grn units value" , value=0)
@@ -584,8 +598,14 @@ elif "CatGCN" in model_type and len(model_type) == 1:
 
     st.markdown("### Enter the CatGCN parameters")
     weight_decay = st.number_input("Enter the weight decay value")
+    with st.expander("More information"):
+        st.write("The parameters that controls the amount the weights will exponentially decay to zero.")
     lr_catgcn = st.number_input("Enter the learning rate")
+    with st.expander("More information"):
+        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
     epochs_catgcn = st.number_input("Enter the number of epochs" , value=0)
+    with st.expander("More information"):
+        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
     diag_probe = st.number_input("Enter the diag probe value" , value=0)
     graph_refining = st.multiselect("Choose the graph refining approach", ["agc", "fignn", "none"])
     grn_units = st.number_input("Enter the grn units value" , value=0)
