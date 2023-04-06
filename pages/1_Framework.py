@@ -488,7 +488,9 @@ if "RHGN" in model_type and "FairGNN" in model_type:
     
     label_number = st.number_input("Enter the label number", value=0)
     
-    
+    num_hidden = st.number_input("Enter the hidden layer number" , value=0)
+    with st.expander("More information"):
+        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
     alpha = st.number_input("Enter alpha value", value=0)
     with st.expander("More information"):
         st.write("Refers to the regularization parameter that controls the amount of L2 regularization applied to the model's weights during the training process.")
@@ -562,6 +564,8 @@ elif "FairGNN" in model_type and len(model_type) == 1:
     sens_number =  st.number_input("Enter the sens number" , value=0)
     label_number = st.number_input("Enter the label number", value=0)
     num_hidden = st.number_input("Enter the hidden layer number" , value=0)
+    with st.expander("More information"):
+        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
     alpha = st.number_input("Enter alpha value" , value=0)
     with st.expander("More information"):
         st.write("Refers to the regularization parameter that controls the amount of L2 regularization applied to the model's weights during the training process.")
