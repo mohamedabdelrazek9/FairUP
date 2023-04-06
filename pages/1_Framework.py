@@ -529,9 +529,19 @@ elif "RHGN" in model_type and len(model_type) == 1:
 
     st.markdown("### Enter the RHGN parametrs")
     num_hidden = st.number_input("Enter the number of hidden layers", value=0)
+    with st.expander("More information"):
+        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
     lr_rhgn = st.number_input("Enter the learning rate")
-    epochs_rhgn = st.number_input("Enter the number of epochs", value=0)
-    clip = st.number_input("Enter the clip value" , value=0)
+    with st.expander("More information"):
+        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
+    
+    epochs_rhgn = st.number_input("Enter the number of epochs for RHGN", value=0)
+    with st.expander("More information"):
+        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
+    
+    clip = st.number_input("Enter the clip value", value=0)
+    with st.expander("More information"):
+        st.write("The clip number is a hyperparameter that determines the maximum value that the gradient can take. If the gradient exceeds this value, it is clipped (i.e., truncated to the maximum value).")
 
 elif "FairGNN" in model_type and len(model_type) == 1:
     st.markdown("### Enter the general parameters")
