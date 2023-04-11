@@ -9,7 +9,8 @@ import queue
 import warnings
 import re
 import subprocess
-
+from presets import Presets
+import random
 
 
 
@@ -334,445 +335,464 @@ jd_columns = ['user_id',
  'item_name',
  'seg_name']
 
-# select moodel
+##############################
+# Ask first with a radio button if the user wants to add a preset?
 
-#dataset = st.selectbox("Select which dataset you want to train on", ("NBA", "Pokec", "Alibaba", "JD"))  
-dataset = st.selectbox("Which dataset do you want to evaluate?", ("NBA", "Pokec-z", "Alibaba", "JD"))
-if dataset == "NBA":
-    dataset = 'nba'
-    predict_attr = st.selectbox("Select prediction label", nba_columns)
-    sens_attr = st.selectbox("Select sensitive attribute", nba_columns)
-elif dataset == "Pokec-z":
-    dataset = 'pokec_z'
-    predict_attr = st.selectbox("Select prediction label", pokec_columns)
-    sens_attr = st.selectbox("Select sensitive attribute", pokec_columns)
-elif dataset == "Alibaba":
-    dataset = 'alibaba'
-    predict_attr = st.selectbox("Select prediction label", alibaba_columns)
-    sens_attr = st.selectbox("Select sensitive attribute", alibaba_columns)
-elif dataset == 'JD':
-    dataset = 'tecent'
-    predict_attr = st.selectbox("Select prediction label", jd_columns)
-    sens_attr = st.selectbox("Select sensitive attribute", jd_columns)
+preset_question = st.radio("Do you want to apply a preset?", ("No", "Yes"))
+if preset_question == 'Yes':
+    preset_list = ['FairGNN (NBA)', 'RHGN (Alibaba)', 'CatGCN (Alibaba)']
+    preset = st.selectbox('Select Preset', preset_list)
+    # implment presets as functions?
+    if preset == 'FairGNN (NBA)':
+        model_type, predict_attr, sens_attr = Presets.FairGNN_NBA()
+    elif preset == 'RHGN (Alibaba)':
+        model_type, predict_attr, sens_attr = Presets.RHGN_Alibaba()
+    elif preset == 'CatGCN (Alibaba)':
+        model_type, predict_attr, sens_attr = Presets.CatGCN_Alibaba()
 
+    Presets.experiment_begin(model_type, predict_attr, sens_attr)
 
-# todo get all columns of the selected dataset and change this to a selectbox
-#predict_attr = st.text_input("Enter the prediction label")
-#sens_attr = st.text_input("Enter the senstive attribute")
-def read_output(stdout, queue):
-    for line in stdout:
-        queue.put(line.strip())
-
-def execute_command_fairness(dataset, sens_attr, predict_attr):
-    with st.spinner("Loading..."):
-        time.sleep(1)
-        #ssh = paramiko.SSHClient()
-        # Automatically add the server's host key (for the first connection only)
-        #ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-        # Connect to the remote server
-        #ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed')
-        
-        #if dataset == 'nba':
-        #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../nba.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
-        #elif dataset == 'alibaba':
-        #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../alibaba_small.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
-        #elif dataset == 'tecent':
-        #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../JD_small.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
-        #elif dataset == 'pokec_z':
-        #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../Master-Thesis-dev/region_job.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
-        #output_queue = queue.Queue()
-        # start a thread to continuously read the output from the stdout object
-        test = 'pwd'
-        st.text(os.system(test))
-        output_thread = threading.Thread(target=read_output, args=(stderr_new, output_queue))
-        output_thread.start()
-
-        # display the output in the Streamlit UI
-        while True:
-            try:
-                line = output_queue.get_nowait()
-                st.text(line)
-            except queue.Empty:
-                if output_thread.is_alive():
-                    continue
-                else:
-                    break
-
-        # wait for the thread to finish
-        output_thread.join()
-        # print the output to the console
-        for line in stdout_new:
-            print(line.strip())
-            if "Dataset" in line:
-                st.text(line.strip())  
-        ssh.close()
-
-fairness_evaluation = st.radio("Do you want to evaluate the dataset fairness?", ("No", "Yes"))
-with st.expander("More information"):
-        st.write("Evaluate how fair the dataset, namely how much bias is affecting the dataset as a whole using the disparate impact metric.")
-if fairness_evaluation == "Yes":
-    if st.button('Calculate Fairness'):
-    # todo send command to server to compute fairness
-    # then show fairness
-    # add info box
-    #dataset_fairness = st.write('Dataset Fairness: 1.57 (Fair)') 
-        #execute_command_fairness(dataset, sens_attr, predict_attr)
-        #with open('test_new.yml', 'r') as file:
-        #    environment = file.read()
-        #with open('test_tmp.yml', 'w') as file:
-        #    file.write(environment.replace('prefix: /', ''))
-        #os.system('conda env create --file test_new.yml --name streamlit_env_new')
-        #os.system('conda activate streamlit_env_new')
-        commands = os.popen('cd src && python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
-        #output = os.popen('cd')
-        #output = os.popen('python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
-        #st.text(output)
-        print(commands)
-    
-
-#####################
-debias = st.radio("Do you want to apply debias approaches?", ("No", "Yes"))
-if "Yes" in debias:
-    debias_approach = st.selectbox("Select which debias approach you want to apply", ["Sample", "Reweighting", "Disparate remover impact"])
-    with st.expander("More information"):
-        st.write("You can mitigate the bias using three pre-processing debaising approaches:")
-        st.write("Sampling: Generates more data to overcome the bias between the different sensitive attributes and classes.")
-        st.write("Reweighting Minimizing the bias in the dataset by assiging different weights to dataset tuples, for example giving the unfavorable sensntive attributes higher weights than favorable sensitive attributes")
-        st.write("Disparate impact remover: Transforms the sensitive attribute features in a way that the correlation between the sensitive attribute features and the prediction class is reduced")
+elif preset_question == 'No':
 
 
 
+    #dataset = st.selectbox("Select which dataset you want to train on", ("NBA", "Pokec", "Alibaba", "JD"))  
+    dataset = st.selectbox("Which dataset do you want to evaluate?", ("NBA", "Pokec-z", "Alibaba", "JD"))
+    if dataset == "NBA":
+        dataset = 'nba'
+        predict_attr = st.selectbox("Select prediction label", nba_columns)
+        sens_attr = st.selectbox("Select sensitive attribute", nba_columns)
+    elif dataset == "Pokec-z":
+        dataset = 'pokec_z'
+        predict_attr = st.selectbox("Select prediction label", pokec_columns)
+        sens_attr = st.selectbox("Select sensitive attribute", pokec_columns)
+    elif dataset == "Alibaba":
+        dataset = 'alibaba'
+        predict_attr = st.selectbox("Select prediction label", alibaba_columns)
+        sens_attr = st.selectbox("Select sensitive attribute", alibaba_columns)
+    elif dataset == 'JD':
+        dataset = 'tecent'
+        predict_attr = st.selectbox("Select prediction label", jd_columns)
+        sens_attr = st.selectbox("Select sensitive attribute", jd_columns)
 
-#if dataset != None:
-#st.markdown("#### Select dataset")
-#uploaded_file = st.file_uploader("Select dataset")
-    #dataset_path = st.text_input("", value="")
 
-model_type = st.multiselect("Select the models you want to train", ["FairGNN", "RHGN", "CatGCN"])
-
-if "RHGN" in model_type and "FairGNN" in model_type:
-    st.markdown("### Enter the general parameters")
-    seed = st.number_input("Enter the prefered seed number", value=0)
-    
+    # todo get all columns of the selected dataset and change this to a selectbox
     #predict_attr = st.text_input("Enter the prediction label")
     #sens_attr = st.text_input("Enter the senstive attribute")
+    def read_output(stdout, queue):
+        for line in stdout:
+            queue.put(line.strip())
 
-
-    st.markdown("### Enter the RHGN parameters")
-    num_hidden = st.text_input("Enter the number of hidden layers", value=0)
-    with st.expander("More information"):
-        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
-    lr_rhgn = st.number_input("Enter the learning rate for RHGN")
-    with st.expander("More information"):
-        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
-    
-    epochs_rhgn = st.number_input("Enter the number of epochs for RHGN", value=0)
-    with st.expander("More information"):
-        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
-    
-    clip = st.number_input("Enter the clip value", value=0)
-    with st.expander("More information"):
-        st.write("The clip number is a hyperparameter that determines the maximum value that the gradient can take. If the gradient exceeds this value, it is clipped (i.e., truncated to the maximum value).")
-    
-    
-
-    st.markdown("### Enter the FairGNN parameters")
-    lr_fairgnn = st.number_input("Enter the learning rate for FairGNN")
-    with st.expander("More information"):
-        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
-    epochs_fairgnn = st.number_input("Enter the number of epochs for FairGNN", value=0)
-    with st.expander("More information"):
-        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
-    sens_number = st.number_input("Enter the sens number", value=0)
-    
-    label_number = st.number_input("Enter the label number", value=0)
-    
-    num_hidden = st.number_input("Enter the hidden layer number" , value=0)
-    with st.expander("More information"):
-        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
-    alpha = st.number_input("Enter alpha value", value=0)
-    with st.expander("More information"):
-        st.write("Refers to the regularization parameter that controls the amount of L2 regularization applied to the model's weights during the training process.")
-     
-    beta = st.number_input("Enter beta value", value=0)
-    with st.expander("More information"):
-        st.write("Refers to the momentum parameter that controls how much the optimizer should take into account the previous update when computing the current update to the model's weights during the training process.")
-    
-
-if "RHGN" in model_type and "CatGCN" in model_type:
-    st.markdown("### Enter the general parameters")
-    seed = st.number_input("Enter the prefered seed number", value=0)
-    #predict_attr = st.text_input("Enter the prediction label")
-    #sens_attr = st.text_input("Enter the senstive attribute")
-
-    st.markdown("### Enter the RHGN parameters")
-    num_hidden = st.text_input("Enter the number of hidden layers")
-    with st.expander("More information"):
-        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
-    lr_rhgn = st.number_input("Enter the learning rate")
-    with st.expander("More information"):
-        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
-    epochs_rhgn = st.number_input("Enter the number of epochs", value=0)
-    with st.expander("More information"):
-        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
-    clip = st.number_input("Enter the clip value", value=0)
-    with st.expander("More information"):
-        st.write("The clip number is a hyperparameter that determines the maximum value that the gradient can take. If the gradient exceeds this value, it is clipped (i.e., truncated to the maximum value).")
-
-    st.markdown("### Enter the CatGCN parameters")
-    weight_decay = st.number_input("Enter the weight decay value" )
-    with st.expander("More information"):
-        st.write("The parameters that controls the amount the weights will exponentially decay to zero.")
-    lr_catgcn = st.number_input("Enter the learning rate")
-    with st.expander("More information"):
-        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
-    epochs_catgcn = st.number_input("Enter the number of epochs", value=0)
-    with st.expander("More information"):
-        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
-    diag_probe = st.number_input("Enter the diag probe value" , value=0)
-    graph_refining = st.selectbox("Choose the graph refining approach", ("agc", "fignn", "none"))
-    grn_units = st.number_input("Enter the grn units value" , value=0)
-    bi_interaction = st.selectbox("Choose the bi-interaction approach", ("nfm", "none"))
-
-
-elif "RHGN" in model_type and len(model_type) == 1:
-    st.markdown("### Enter the general paramaters")
-    seed = st.number_input("Enter the prefered seed number", value=0)
-    #lr = st.number_input("Enter the learning rate", value=0)
-    #epochs = st.number_input("Enter the number of epochs", value=0)
-    #predict_attr = st.text_input("Enter the prediction label")
-    #sens_attr = st.text_input("Enter the senstive attribute")
-
-
-    st.markdown("### Enter the RHGN parametrs")
-    num_hidden = st.number_input("Enter the number of hidden layers", value=0)
-    with st.expander("More information"):
-        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
-    lr_rhgn = st.number_input("Enter the learning rate")
-    with st.expander("More information"):
-        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
-    
-    epochs_rhgn = st.number_input("Enter the number of epochs for RHGN", value=0)
-    with st.expander("More information"):
-        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
-    
-    clip = st.number_input("Enter the clip value", value=0)
-    with st.expander("More information"):
-        st.write("The clip number is a hyperparameter that determines the maximum value that the gradient can take. If the gradient exceeds this value, it is clipped (i.e., truncated to the maximum value).")
-
-elif "FairGNN" in model_type and len(model_type) == 1:
-    st.markdown("### Enter the general parameters")
-    seed = st.number_input("Enter the prefered seed number" , value=0)
-    #lr = st.number_input("Enter the learning rate" , value=0)
-    #epochs = st.number_input("Enter the number of epochs" , value=0)
-    #predict_attr = st.text_input("Enter the prediction label")
-    #sens_attr = st.text_input("Enter the senstive attribute")
-
-
-    st.markdown("### Enter the FairGNN parameters")
-    lr_fairgnn = st.number_input("Enter the learning rate")
-    epochs_fairgnn = st.number_input("Enter the number of epochs" , value=0)
-    with st.expander("More information"):
-        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
-    sens_number =  st.number_input("Enter the sens number" , value=0)
-    label_number = st.number_input("Enter the label number", value=0)
-    num_hidden = st.number_input("Enter the hidden layer number" , value=0)
-    with st.expander("More information"):
-        st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
-    alpha = st.number_input("Enter alpha value" , value=0)
-    with st.expander("More information"):
-        st.write("Refers to the regularization parameter that controls the amount of L2 regularization applied to the model's weights during the training process.")
-    beta = st.number_input("Enter beta value", value=0)
-    with st.expander("More information"):
-        st.write("Refers to the momentum parameter that controls how much the optimizer should take into account the previous update when computing the current update to the model's weights during the training process.")
-
-
-elif "CatGCN" in model_type and len(model_type) == 1:
-    st.markdown("### Enter the general paramaters")
-    seed = st.number_input("Enter the prefered seed number", value=0)
-    #lr = st.number_input("Enter the learning rate" , value=0)
-    #epochs = st.number_input("Enter the number of epochs" , value=0)
-    #predict_attr = st.text_input("Enter the prediction label")
-    #sens_attr = st.text_input("Enter the senstive attribute")
-
-    st.markdown("### Enter the CatGCN parameters")
-    weight_decay = st.number_input("Enter the weight decay value")
-    with st.expander("More information"):
-        st.write("The parameters that controls the amount the weights will exponentially decay to zero.")
-    lr_catgcn = st.number_input("Enter the learning rate")
-    with st.expander("More information"):
-        st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
-    epochs_catgcn = st.number_input("Enter the number of epochs" , value=0)
-    with st.expander("More information"):
-        st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
-    diag_probe = st.number_input("Enter the diag probe value" , value=0)
-    graph_refining = st.multiselect("Choose the graph refining approach", ["agc", "fignn", "none"])
-    grn_units = st.number_input("Enter the grn units value" , value=0)
-    bi_interaction = st.multiselect("Choose the bi-interaction approach", ["nfm", "none"])
-
-
-
-if len(model_type) != 0:
-    if st.button("Begin experiment"):
+    def execute_command_fairness(dataset, sens_attr, predict_attr):
         with st.spinner("Loading..."):
-
-            time.sleep(2)
-            ssh = paramiko.SSHClient()
-            port = 443
+            time.sleep(1)
+            #ssh = paramiko.SSHClient()
             # Automatically add the server's host key (for the first connection only)
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            #ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
             # Connect to the remote server
-            ssh.connect('https://dtdh206.cs.uni-magdeburg.de:443')
-            #ssh.connect('141.44.31.206', port=443, banner_timeout=200)
-            stdin, stdout, stderr =  ssh.exec_command('ls')
-            print(stdout)
-
-            if len(model_type) == 1 and 'FairGNN' in model_type:
-                stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epoch {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN --type 1 --sens_attr {} --predict_attr {} --label_number 100 --no-cuda True --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr))
-            if len(model_type) == 1 and 'RHGN' in model_type:
-                if predict_attr == 'final_gender_code':
-                    predict_attr = 'bin_gender'
-                if sens_attr == 'age_level':
-                    sens_attr = 'bin_age'
-                stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --dataset_path ../ --max_lr {} --num_hidden {} --clip {} --epochs {} --label {} --sens_attr {} --type 1 --model_type RHGN --dataset_name {} --dataset_user_id_name userid --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_rhgn, num_hidden, clip, epochs_rhgn, predict_attr, sens_attr, dataset))
-            # CatGCN
-            if len(model_type) == 1 and 'CatGCN' in model_type:
-                if predict_attr == 'final_gender_code':
-                    predict_attr = 'bin_gender'
-                if sens_attr == 'age_level':
-                    sens_attr = 'bin_age'
-                stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --lr {} --weight_decay {} --dropout 0.1 --diag-probe {} --graph-refining {} --aggr-pooling mean --grn_units {} --bi-interaction {} --nfm-units none --graph-layer pna --gnn-hops 1 --gnn-units none --aggr-style sum --balance-ratio 0.7 --sens_attr {} --label {} --dataset_name {} --dataset_path ../ --type 1 --model_type CatGCN --dataset_user_id_name userid --alpha 0.5 --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_catgcn, weight_decay, diag_probe, graph_refining, grn_units, bi_interaction, sens_attr, predict_attr, dataset))
-
-            # FairGNN and RHGN
-            if len(model_type) == 2 and 'FairGNN' in model_type and 'RHGN' in model_type:
-                if predict_attr == 'final_gender_code':
-                    label = 'bin_gender'
-                if sens_attr == 'age_level':
-                    sens_attr_rhgn = 'bin_age'
-                stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epochs {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN RHGN --type 1 --sens_attr {} --label {} --predict_attr {} --label_number 100 --no-cuda True --max_lr {} --clip {} --epochs_rhgn {}  --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr, predict_attr, lr_rhgn, clip, epochs_rhgn))
-                print('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epochs {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN RHGN --type 1 --sens_attr {} --label {} --predict_attr {} --label_number 100 --no-cuda True --max_lr {} --clip {} --epochs_rhgn {}  --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr, predict_attr, lr_rhgn, clip, epochs_rhgn))
-                #stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && ls')
-                
-            output_queue = queue.Queue()
-            output_thred = threading.Thread(target=read_output, args=(stderr, output_queue))
-            output_thred.start()
+            #ssh.connect('141.44.31.206', username='abdelrazek', password='Mohamed')
             
+            #if dataset == 'nba':
+            #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../nba.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
+            #elif dataset == 'alibaba':
+            #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../alibaba_small.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
+            #elif dataset == 'tecent':
+            #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../JD_small.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
+            #elif dataset == 'pokec_z':
+            #    stdin_new, stdout_new, stderr_new = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 main.py --calc_fairness True --dataset_name {} --dataset_path ../Master-Thesis-dev/region_job.csv --special_case True --sens_attr {} --predict_attr {} --type 1'.format(dataset, sens_attr, predict_attr), get_pty=True)
+            #output_queue = queue.Queue()
+            # start a thread to continuously read the output from the stdout object
+            test = 'pwd'
+            st.text(os.system(test))
+            output_thread = threading.Thread(target=read_output, args=(stderr_new, output_queue))
+            output_thread.start()
+
+            # display the output in the Streamlit UI
             while True:
                 try:
                     line = output_queue.get_nowait()
-                    #st.text(line)
+                    st.text(line)
                 except queue.Empty:
-                    if output_thred.is_alive():
+                    if output_thread.is_alive():
                         continue
                     else:
                         break
 
-            output_thred.join()
-            all_output = []
-            for line in stdout:
+            # wait for the thread to finish
+            output_thread.join()
+            # print the output to the console
+            for line in stdout_new:
                 print(line.strip())
-                #st.text(line.strip())
-                if "Test_final:" in line and 'FairGNN' in model_type:
-                    result = line.strip()
-                    #st.text(result)
-                if 'accuracy' in line and 'RHGN' in model_type:
-                    #st.text(line.strip())
-                    line = line.strip() + 'end'
-                    acc = re.search('accuracy                         (.+?)end', line)
-                    acc = acc.group(1)
-                    acc_rhgn = acc.split()[0]
-                if 'F1 score:' in line:
-                    f1 = '.'.join(line.split('.')[0:2])
-                    f1_rhgn = '{:.3f}'.format(float(f1.split()[-1]))
-                if 'Statistical Parity Difference (SPD):' in line:
-                    spd_rhgn = '{:.3f}'.format(float(line.split()[-1]))
-
-                if 'Equal Opportunity Difference (EOD):' in line:
-                    eod_rhgn = '{:.3f}'.format(float(line.split()[-1]))
-
-                if 'Overall Accuracy Equality Difference (OAED):' in line:
-                    oaed_rhgn = '{:.3f}'.format(float(line.split()[-1]))
-
-                if 'Treatment Equality Difference (TED):' in line:
-                    ted_rhgn = '{:.3f}'.format(float(line.split()[-1]))
-                #all_output.append(line.strip())
-            # Close the connection
+                if "Dataset" in line:
+                    st.text(line.strip())  
             ssh.close()
 
-        st.success("Done!")
-
+    fairness_evaluation = st.radio("Do you want to evaluate the dataset fairness?", ("No", "Yes"))
+    with st.expander("More information"):
+            st.write("Evaluate how fair the dataset, namely how much bias is affecting the dataset as a whole using the disparate impact metric.")
+    if fairness_evaluation == "Yes":
+        if st.button('Calculate Fairness'):
+        # todo send command to server to compute fairness
+        # then show fairness
+        # add info box
+        #dataset_fairness = st.write('Dataset Fairness: 1.57 (Fair)') 
+            #execute_command_fairness(dataset, sens_attr, predict_attr)
+            #with open('test_new.yml', 'r') as file:
+            #    environment = file.read()
+            #with open('test_tmp.yml', 'w') as file:
+            #    file.write(environment.replace('prefix: /', ''))
+            #os.system('conda env create --file test_new.yml --name streamlit_env_new')
+            #os.system('conda activate streamlit_env_new')
+            commands = os.popen('cd src && python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
+            #output = os.popen('cd')
+            #output = os.popen('python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
+            #st.text(output)
+            print(commands)
         
-        st.markdown("## Training Results:")
-        print(len(model_type))
-        print(model_type)
-        if len(model_type) == 1 and 'FairGNN' in model_type:
-            st.text(result)
-            acc = re.search('accuracy:(.+?)roc', result)
-            f1 = re.search('F1:(.+?)acc_sens', result)
 
-            spd = re.search('parity:(.+?)equality', result)
-            eod = re.search('equality:(.+?)oaed', result)
-            oaed = re.search('oaed:(.+?)treatment equality', result)
-            ted = re.search('treatment equality(.+?)end', result)
-            data = {'Model': [model_type],
-                'Accuracy': [acc.group(1)],
-                'F1': [f1.group(1)],
-                'SPD': [spd.group(1)],
-                'EOD': [eod.group(1)],
-                'OAED': [oaed.group(1)],
-                'TED': [ted.group(1)]
-                }
+    #####################
+    debias = st.radio("Do you want to apply debias approaches?", ("No", "Yes"))
+    if "Yes" in debias:
+        debias_approach = st.selectbox("Select which debias approach you want to apply", ["Sample", "Reweighting", "Disparate remover impact"])
+        with st.expander("More information"):
+            st.write("You can mitigate the bias using three pre-processing debaising approaches:")
+            st.write("Sampling: Generates more data to overcome the bias between the different sensitive attributes and classes.")
+            st.write("Reweighting Minimizing the bias in the dataset by assiging different weights to dataset tuples, for example giving the unfavorable sensntive attributes higher weights than favorable sensitive attributes")
+            st.write("Disparate impact remover: Transforms the sensitive attribute features in a way that the correlation between the sensitive attribute features and the prediction class is reduced")
+
+
+
+
+    #if dataset != None:
+    #st.markdown("#### Select dataset")
+    #uploaded_file = st.file_uploader("Select dataset")
+        #dataset_path = st.text_input("", value="")
+
+    model_type = st.multiselect("Select the models you want to train", ["FairGNN", "RHGN", "CatGCN"])
+
+    if "RHGN" in model_type and "FairGNN" in model_type:
+        st.markdown("### Enter the general parameters")
+        seed = st.number_input("Enter the prefered seed number", value=0)
+        
+        #predict_attr = st.text_input("Enter the prediction label")
+        #sens_attr = st.text_input("Enter the senstive attribute")
+
+
+        st.markdown("### Enter the RHGN parameters")
+        num_hidden = st.text_input("Enter the number of hidden layers", value=0)
+        with st.expander("More information"):
+            st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
+        lr_rhgn = st.number_input("Enter the learning rate for RHGN")
+        with st.expander("More information"):
+            st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
+        
+        epochs_rhgn = st.number_input("Enter the number of epochs for RHGN", value=0)
+        with st.expander("More information"):
+            st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
+        
+        clip = st.number_input("Enter the clip value", value=0)
+        with st.expander("More information"):
+            st.write("The clip number is a hyperparameter that determines the maximum value that the gradient can take. If the gradient exceeds this value, it is clipped (i.e., truncated to the maximum value).")
+        
+        
+
+        st.markdown("### Enter the FairGNN parameters")
+        lr_fairgnn = st.number_input("Enter the learning rate for FairGNN")
+        with st.expander("More information"):
+            st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
+        epochs_fairgnn = st.number_input("Enter the number of epochs for FairGNN", value=0)
+        with st.expander("More information"):
+            st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
+        sens_number = st.number_input("Enter the sens number", value=0)
+        
+        label_number = st.number_input("Enter the label number", value=0)
+        
+        num_hidden = st.number_input("Enter the hidden layer number" , value=0)
+        with st.expander("More information"):
+            st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
+        alpha = st.number_input("Enter alpha value", value=0)
+        with st.expander("More information"):
+            st.write("Refers to the regularization parameter that controls the amount of L2 regularization applied to the model's weights during the training process.")
+        
+        beta = st.number_input("Enter beta value", value=0)
+        with st.expander("More information"):
+            st.write("Refers to the momentum parameter that controls how much the optimizer should take into account the previous update when computing the current update to the model's weights during the training process.")
+        
+
+    if "RHGN" in model_type and "CatGCN" in model_type:
+        st.markdown("### Enter the general parameters")
+        seed = st.number_input("Enter the prefered seed number", value=0)
+        #predict_attr = st.text_input("Enter the prediction label")
+        #sens_attr = st.text_input("Enter the senstive attribute")
+
+        st.markdown("### Enter the RHGN parameters")
+        num_hidden = st.text_input("Enter the number of hidden layers")
+        with st.expander("More information"):
+            st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
+        lr_rhgn = st.number_input("Enter the learning rate")
+        with st.expander("More information"):
+            st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
+        epochs_rhgn = st.number_input("Enter the number of epochs", value=0)
+        with st.expander("More information"):
+            st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
+        clip = st.number_input("Enter the clip value", value=0)
+        with st.expander("More information"):
+            st.write("The clip number is a hyperparameter that determines the maximum value that the gradient can take. If the gradient exceeds this value, it is clipped (i.e., truncated to the maximum value).")
+
+        st.markdown("### Enter the CatGCN parameters")
+        weight_decay = st.number_input("Enter the weight decay value" )
+        with st.expander("More information"):
+            st.write("The parameters that controls the amount the weights will exponentially decay to zero.")
+        lr_catgcn = st.number_input("Enter the learning rate")
+        with st.expander("More information"):
+            st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
+        epochs_catgcn = st.number_input("Enter the number of epochs", value=0)
+        with st.expander("More information"):
+            st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
+        diag_probe = st.number_input("Enter the diag probe value" , value=0)
+        graph_refining = st.selectbox("Choose the graph refining approach", ("agc", "fignn", "none"))
+        grn_units = st.number_input("Enter the grn units value" , value=0)
+        bi_interaction = st.selectbox("Choose the bi-interaction approach", ("nfm", "none"))
+
+
+    elif "RHGN" in model_type and len(model_type) == 1:
+        st.markdown("### Enter the general paramaters")
+        seed = st.number_input("Enter the prefered seed number", value=0)
+        #lr = st.number_input("Enter the learning rate", value=0)
+        #epochs = st.number_input("Enter the number of epochs", value=0)
+        #predict_attr = st.text_input("Enter the prediction label")
+        #sens_attr = st.text_input("Enter the senstive attribute")
+
+
+        st.markdown("### Enter the RHGN parametrs")
+        num_hidden = st.number_input("Enter the number of hidden layers", value=0)
+        with st.expander("More information"):
+            st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
+        lr_rhgn = st.number_input("Enter the learning rate")
+        with st.expander("More information"):
+            st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
+        
+        epochs_rhgn = st.number_input("Enter the number of epochs for RHGN", value=0)
+        with st.expander("More information"):
+            st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
+        
+        clip = st.number_input("Enter the clip value", value=0)
+        with st.expander("More information"):
+            st.write("The clip number is a hyperparameter that determines the maximum value that the gradient can take. If the gradient exceeds this value, it is clipped (i.e., truncated to the maximum value).")
+
+    elif "FairGNN" in model_type and len(model_type) == 1:
+        st.markdown("### Enter the general parameters")
+        seed = st.number_input("Enter the prefered seed number" , value=0)
+        #lr = st.number_input("Enter the learning rate" , value=0)
+        #epochs = st.number_input("Enter the number of epochs" , value=0)
+        #predict_attr = st.text_input("Enter the prediction label")
+        #sens_attr = st.text_input("Enter the senstive attribute")
+
+
+        st.markdown("### Enter the FairGNN parameters")
+        lr_fairgnn = st.number_input("Enter the learning rate")
+        epochs_fairgnn = st.number_input("Enter the number of epochs" , value=0)
+        with st.expander("More information"):
+            st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
+        sens_number =  st.number_input("Enter the sens number" , value=0)
+        label_number = st.number_input("Enter the label number", value=0)
+        num_hidden = st.number_input("Enter the hidden layer number" , value=0)
+        with st.expander("More information"):
+            st.write("The number of hidden layers refers to the number of layers between the input layer and the output layer of a model.")
+        alpha = st.number_input("Enter alpha value" , value=0)
+        with st.expander("More information"):
+            st.write("Refers to the regularization parameter that controls the amount of L2 regularization applied to the model's weights during the training process.")
+        beta = st.number_input("Enter beta value", value=0)
+        with st.expander("More information"):
+            st.write("Refers to the momentum parameter that controls how much the optimizer should take into account the previous update when computing the current update to the model's weights during the training process.")
+
+
+    elif "CatGCN" in model_type and len(model_type) == 1:
+        st.markdown("### Enter the general paramaters")
+        seed = st.number_input("Enter the prefered seed number", value=0)
+        #lr = st.number_input("Enter the learning rate" , value=0)
+        #epochs = st.number_input("Enter the number of epochs" , value=0)
+        #predict_attr = st.text_input("Enter the prediction label")
+        #sens_attr = st.text_input("Enter the senstive attribute")
+
+        st.markdown("### Enter the CatGCN parameters")
+        weight_decay = st.number_input("Enter the weight decay value")
+        with st.expander("More information"):
+            st.write("The parameters that controls the amount the weights will exponentially decay to zero.")
+        lr_catgcn = st.number_input("Enter the learning rate")
+        with st.expander("More information"):
+            st.write("Is a hyperparameter that controls the step size of the updates made to the weights during training. In other words, it determines how quickly the model learns from the data.")
+        epochs_catgcn = st.number_input("Enter the number of epochs" , value=0)
+        with st.expander("More information"):
+            st.write("Refers to a single pass through the entire training dataset during the training of a model. In other words, an epoch is a measure of the number of times the model has seen the entire training data.")
+        diag_probe = st.number_input("Enter the diag probe value" , value=0)
+        graph_refining = st.multiselect("Choose the graph refining approach", ["agc", "fignn", "none"])
+        grn_units = st.number_input("Enter the grn units value" , value=0)
+        bi_interaction = st.multiselect("Choose the bi-interaction approach", ["nfm", "none"])
+
+
+
+    if len(model_type) != 0:
+        if st.button("Begin experiment"):
+            with st.spinner("Loading..."):
+
+                time.sleep(2)
+                ssh = paramiko.SSHClient()
+                port = 443
+                # Automatically add the server's host key (for the first connection only)
+                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+                # Connect to the remote server
+                ssh.connect('https://dtdh206.cs.uni-magdeburg.de:443')
+                #ssh.connect('141.44.31.206', port=443, banner_timeout=200)
+                stdin, stdout, stderr =  ssh.exec_command('ls')
+                print(stdout)
+
+                if len(model_type) == 1 and 'FairGNN' in model_type:
+                    stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epoch {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN --type 1 --sens_attr {} --predict_attr {} --label_number 100 --no-cuda True --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr))
+                if len(model_type) == 1 and 'RHGN' in model_type:
+                    if predict_attr == 'final_gender_code':
+                        predict_attr = 'bin_gender'
+                    if sens_attr == 'age_level':
+                        sens_attr = 'bin_age'
+                    stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --dataset_path ../ --max_lr {} --num_hidden {} --clip {} --epochs {} --label {} --sens_attr {} --type 1 --model_type RHGN --dataset_name {} --dataset_user_id_name userid --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_rhgn, num_hidden, clip, epochs_rhgn, predict_attr, sens_attr, dataset))
+                # CatGCN
+                if len(model_type) == 1 and 'CatGCN' in model_type:
+                    if predict_attr == 'final_gender_code':
+                        predict_attr = 'bin_gender'
+                    if sens_attr == 'age_level':
+                        sens_attr = 'bin_age'
+                    stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --lr {} --weight_decay {} --dropout 0.1 --diag-probe {} --graph-refining {} --aggr-pooling mean --grn_units {} --bi-interaction {} --nfm-units none --graph-layer pna --gnn-hops 1 --gnn-units none --aggr-style sum --balance-ratio 0.7 --sens_attr {} --label {} --dataset_name {} --dataset_path ../ --type 1 --model_type CatGCN --dataset_user_id_name userid --alpha 0.5 --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_catgcn, weight_decay, diag_probe, graph_refining, grn_units, bi_interaction, sens_attr, predict_attr, dataset))
+
+                # FairGNN and RHGN
+                if len(model_type) == 2 and 'FairGNN' in model_type and 'RHGN' in model_type:
+                    if predict_attr == 'final_gender_code':
+                        label = 'bin_gender'
+                    if sens_attr == 'age_level':
+                        sens_attr_rhgn = 'bin_age'
+                    stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epochs {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN RHGN --type 1 --sens_attr {} --label {} --predict_attr {} --label_number 100 --no-cuda True --max_lr {} --clip {} --epochs_rhgn {}  --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr, predict_attr, lr_rhgn, clip, epochs_rhgn))
+                    print('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epochs {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN RHGN --type 1 --sens_attr {} --label {} --predict_attr {} --label_number 100 --no-cuda True --max_lr {} --clip {} --epochs_rhgn {}  --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr, predict_attr, lr_rhgn, clip, epochs_rhgn))
+                    #stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && ls')
+                    
+                output_queue = queue.Queue()
+                output_thred = threading.Thread(target=read_output, args=(stderr, output_queue))
+                output_thred.start()
+                
+                while True:
+                    try:
+                        line = output_queue.get_nowait()
+                        #st.text(line)
+                    except queue.Empty:
+                        if output_thred.is_alive():
+                            continue
+                        else:
+                            break
+
+                output_thred.join()
+                all_output = []
+                for line in stdout:
+                    print(line.strip())
+                    #st.text(line.strip())
+                    if "Test_final:" in line and 'FairGNN' in model_type:
+                        result = line.strip()
+                        #st.text(result)
+                    if 'accuracy' in line and 'RHGN' in model_type:
+                        #st.text(line.strip())
+                        line = line.strip() + 'end'
+                        acc = re.search('accuracy                         (.+?)end', line)
+                        acc = acc.group(1)
+                        acc_rhgn = acc.split()[0]
+                    if 'F1 score:' in line:
+                        f1 = '.'.join(line.split('.')[0:2])
+                        f1_rhgn = '{:.3f}'.format(float(f1.split()[-1]))
+                    if 'Statistical Parity Difference (SPD):' in line:
+                        spd_rhgn = '{:.3f}'.format(float(line.split()[-1]))
+
+                    if 'Equal Opportunity Difference (EOD):' in line:
+                        eod_rhgn = '{:.3f}'.format(float(line.split()[-1]))
+
+                    if 'Overall Accuracy Equality Difference (OAED):' in line:
+                        oaed_rhgn = '{:.3f}'.format(float(line.split()[-1]))
+
+                    if 'Treatment Equality Difference (TED):' in line:
+                        ted_rhgn = '{:.3f}'.format(float(line.split()[-1]))
+                    #all_output.append(line.strip())
+                # Close the connection
+                ssh.close()
+
+            st.success("Done!")
+
             
-        elif len(model_type) == 1 and 'RHGN' in model_type:
-            #print('all_output:', all_output)
-            data =  {'Model': [model_type],
-            'Accuracy': [acc_rhgn],
-            'F1': [f1_rhgn],
-            'SPD': [spd_rhgn],
-            'EOD': [eod_rhgn],
-            'OAED': [oaed_rhgn],
-            'TED': [ted_rhgn]
-            }
+            st.markdown("## Training Results:")
+            print(len(model_type))
+            print(model_type)
+            if len(model_type) == 1 and 'FairGNN' in model_type:
+                st.text(result)
+                acc = re.search('accuracy:(.+?)roc', result)
+                f1 = re.search('F1:(.+?)acc_sens', result)
 
-        elif len(model_type) == 2 and 'RHGN' in model_type and 'FairGNN' in model_type:
+                spd = re.search('parity:(.+?)equality', result)
+                eod = re.search('equality:(.+?)oaed', result)
+                oaed = re.search('oaed:(.+?)treatment equality', result)
+                ted = re.search('treatment equality(.+?)end', result)
+                data = {'Model': [model_type],
+                    'Accuracy': [acc.group(1)],
+                    'F1': [f1.group(1)],
+                    'SPD': [spd.group(1)],
+                    'EOD': [eod.group(1)],
+                    'OAED': [oaed.group(1)],
+                    'TED': [ted.group(1)]
+                    }
+                
+            elif len(model_type) == 1 and 'RHGN' in model_type:
+                #print('all_output:', all_output)
+                data =  {'Model': [model_type],
+                'Accuracy': [acc_rhgn],
+                'F1': [f1_rhgn],
+                'SPD': [spd_rhgn],
+                'EOD': [eod_rhgn],
+                'OAED': [oaed_rhgn],
+                'TED': [ted_rhgn]
+                }
 
-            acc = re.search('a:(.+?)roc', result)
-            f1 = re.search('F1:(.+?)acc_sens', result)
+            elif len(model_type) == 2 and 'RHGN' in model_type and 'FairGNN' in model_type:
 
-            spd = re.search('parity:(.+?)equality', result)
-            eod = re.search('equality:(.+?)oaed', result)
-            oaed = re.search('oaed:(.+?)treatment equality', result)
-            ted = re.search('treatment equality(.+?)end', result)
+                acc = re.search('a:(.+?)roc', result)
+                f1 = re.search('F1:(.+?)acc_sens', result)
 
-            ind_fairgnn = model_type.index('FairGNN')
-            ind_rhgn = model_type.index('RHGN')
-            data =  {'Model': [model_type[ind_fairgnn], model_type[ind_rhgn]],
-            'Prediction label': [predict_attr, predict_attr],
-            'Sensitive attribute': [sens_attr, sens_attr],
-            'Accuracy': [acc.group(1), acc_rhgn],
-            'F1': [f1.group(1), f1_rhgn],
-            'SPD': [spd.group(1), spd_rhgn],
-            'EOD': [eod.group(1), eod_rhgn],
-            'OAED': [oaed.group(1), oaed_rhgn],
-            'TED': [ted.group(1), ted_rhgn]
-            }
+                spd = re.search('parity:(.+?)equality', result)
+                eod = re.search('equality:(.+?)oaed', result)
+                oaed = re.search('oaed:(.+?)treatment equality', result)
+                ted = re.search('treatment equality(.+?)end', result)
 
-        df = pd.DataFrame(data)
+                ind_fairgnn = model_type.index('FairGNN')
+                ind_rhgn = model_type.index('RHGN')
+                data =  {'Model': [model_type[ind_fairgnn], model_type[ind_rhgn]],
+                'Prediction label': [predict_attr, predict_attr],
+                'Sensitive attribute': [sens_attr, sens_attr],
+                'Accuracy': [acc.group(1), acc_rhgn],
+                'F1': [f1.group(1), f1_rhgn],
+                'SPD': [spd.group(1), spd_rhgn],
+                'EOD': [eod.group(1), eod_rhgn],
+                'OAED': [oaed.group(1), oaed_rhgn],
+                'TED': [ted.group(1), ted_rhgn]
+                }
 
-        #st.dataframe(df, width=5000)
-        # set the display options for the DataFrame
-        pd.set_option("display.max_columns", None)
-        pd.set_option("display.width", 100)
+            df = pd.DataFrame(data)
 
-        
+            #st.dataframe(df, width=5000)
+            # set the display options for the DataFrame
+            pd.set_option("display.max_columns", None)
+            pd.set_option("display.width", 100)
 
-        # display the DataFrame in Streamlit
-        st.write(df)
+            
 
-    #st.write("The logs of the experiment can be found at: mohamed9/Experiments-RHGN-CatGCN-Alibaba")
-    #st.markdown("The logs of the experiment can be found at: **mohamed9/Experiments-RHGN-FairGNN-Alibaba**")
+            # display the DataFrame in Streamlit
+            st.write(df)
 
-    
+        #st.write("The logs of the experiment can be found at: mohamed9/Experiments-RHGN-CatGCN-Alibaba")
+        #st.markdown("The logs of the experiment can be found at: **mohamed9/Experiments-RHGN-FairGNN-Alibaba**")
+
+
 
