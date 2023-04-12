@@ -4,7 +4,7 @@
 import argparse
 import os
 #from turtle import st
-from utils import bin_alibaba, load_networkx_file, load_neo4j_file
+from src.utils import bin_alibaba, load_networkx_file, load_neo4j_file
 from FairGNN.src.utils import load_pokec, feature_norm
 from FairGNN.src.train_fairGNN import train_FairGNN
 from alibaba_processing.ali_RHGN_pre_processing import ali_RHGN_pre_process
