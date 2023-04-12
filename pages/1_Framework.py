@@ -11,7 +11,7 @@ import re
 import subprocess
 from presets import Presets
 import random
-from src import main
+#from src import main
 
 
 
@@ -337,8 +337,7 @@ jd_columns = ['user_id',
  'seg_name']
 
 ##############################
-# Ask first with a radio button if the user wants to add a preset?
-
+# Preset
 preset_question = st.radio("Do you want to apply a preset?", ("No", "Yes"))
 if preset_question == 'Yes':
     preset_list = ['FairGNN (NBA)', 'RHGN (Alibaba)', 'CatGCN (Alibaba)']
