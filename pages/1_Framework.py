@@ -11,6 +11,7 @@ import re
 import subprocess
 from presets import Presets
 import random
+from src import main
 
 
 
@@ -445,9 +446,11 @@ elif preset_question == 'No':
             #os.system('conda env create --file test_new.yml --name streamlit_env_new')
             #os.system('conda activate streamlit_env_new')
             commands = os.popen('cd src && python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
+            
             #output = os.popen('cd')
             #output = os.popen('python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
             #st.text(output)
+            
             print(commands)
         
 
@@ -636,8 +639,13 @@ elif preset_question == 'No':
     if len(model_type) != 0:
         if st.button("Begin experiment"):
             with st.spinner("Loading..."):
-
                 time.sleep(2)
+                if predict_attr == 'final_gender_code':
+                    predict_attr == 'bin_gender'
+                if sens_attr == 'age_level':
+                    sens_attr == 'bin_age'
+
+                ###################################################################################################################
                 ssh = paramiko.SSHClient()
                 port = 443
                 # Automatically add the server's host key (for the first connection only)
@@ -652,17 +660,9 @@ elif preset_question == 'No':
                 if len(model_type) == 1 and 'FairGNN' in model_type:
                     stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --epoch {} --model GCN --sens_number {} --num_hidden {} --acc 0.20 --roc 0.20 --alpha {} --beta {} --dataset_name {} --dataset_path ../nba.csv --dataset_user_id_name user_id --model_type FairGNN --type 1 --sens_attr {} --predict_attr {} --label_number 100 --no-cuda True --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, epochs_fairgnn, sens_number, num_hidden, alpha, beta, dataset, sens_attr, predict_attr))
                 if len(model_type) == 1 and 'RHGN' in model_type:
-                    if predict_attr == 'final_gender_code':
-                        predict_attr = 'bin_gender'
-                    if sens_attr == 'age_level':
-                        sens_attr = 'bin_age'
                     stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --dataset_path ../ --max_lr {} --num_hidden {} --clip {} --epochs {} --label {} --sens_attr {} --type 1 --model_type RHGN --dataset_name {} --dataset_user_id_name userid --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_rhgn, num_hidden, clip, epochs_rhgn, predict_attr, sens_attr, dataset))
                 # CatGCN
                 if len(model_type) == 1 and 'CatGCN' in model_type:
-                    if predict_attr == 'final_gender_code':
-                        predict_attr = 'bin_gender'
-                    if sens_attr == 'age_level':
-                        sens_attr = 'bin_age'
                     stdin, stdout, stderr = ssh.exec_command('cd /home/abdelrazek/framework-for-fairness-analysis-and-mitigation-main && /home/abdelrazek/anaconda3/envs/test/bin/python3 -W ignore main.py --seed {} --gpu 0 --lr {} --weight_decay {} --dropout 0.1 --diag-probe {} --graph-refining {} --aggr-pooling mean --grn_units {} --bi-interaction {} --nfm-units none --graph-layer pna --gnn-hops 1 --gnn-units none --aggr-style sum --balance-ratio 0.7 --sens_attr {} --label {} --dataset_name {} --dataset_path ../ --type 1 --model_type CatGCN --dataset_user_id_name userid --alpha 0.5 --special_case True --neptune_project mohamed9/FairGNN-Alibaba --neptune_token eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI0Nzc0MTIzMy0xMjRhLTQ0OGQtODE5Mi1mZjE3MDE0MGFhOGMifQ=='.format(seed, lr_catgcn, weight_decay, diag_probe, graph_refining, grn_units, bi_interaction, sens_attr, predict_attr, dataset))
 
                 # FairGNN and RHGN
