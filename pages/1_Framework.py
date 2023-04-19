@@ -339,6 +339,9 @@ jd_columns = ['user_id',
 ##############################
 # Preset
 preset_question = st.radio("Do you want to apply a preset?", ("No", "Yes"))
+with st.expander("More information"):
+        st.write("A preset is a pre-defined parameter and model settings that can be choosen by the user to test the Framework easily.")
+        st.write("Each preset option is defined by the model name and (in brackets) the dataset which it will be trained on.")
 if preset_question == 'Yes':
     preset_list = ['FairGNN (NBA)', 'RHGN (Alibaba)', 'CatGCN (Alibaba)']
     preset = st.selectbox('Select Preset', preset_list)
@@ -353,10 +356,6 @@ if preset_question == 'Yes':
     Presets.experiment_begin(model_type, predict_attr, sens_attr)
 
 elif preset_question == 'No':
-
-
-
-    #dataset = st.selectbox("Select which dataset you want to train on", ("NBA", "Pokec", "Alibaba", "JD"))  
     dataset = st.selectbox("Which dataset do you want to evaluate?", ("NBA", "Pokec-z", "Alibaba", "JD"))
     if dataset == "NBA":
         dataset = 'nba'
