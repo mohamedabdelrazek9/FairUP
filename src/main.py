@@ -5,8 +5,8 @@ import argparse
 import os
 #from turtle import st
 from src.utils import bin_alibaba, load_networkx_file, load_neo4j_file
-from FairGNN.src.utils import load_pokec, feature_norm
-from FairGNN.src.train_fairGNN import train_FairGNN
+from models.FairGNN.src.utils import load_pokec, feature_norm 
+from models.FairGNN.src.train_fairGNN import train_FairGNN 
 from alibaba_processing.ali_RHGN_pre_processing import ali_RHGN_pre_process
 from alibaba_processing.ali_CatGCN_pre_processing import ali_CatGCN_pre_processing
 from tecent_processing.tecent_RHGN_pre_processing import tec_RHGN_pre_process
@@ -15,10 +15,10 @@ from nba_processing.nba_RHGN_pre_processing import nba_RHGN_pre_process
 from nba_processing.nba_CatGCN_pre_processing import nba_CatGCN_pre_process
 from pokec_processing.pokec_RHGN_pre_processing import pokec_z_RHGN_pre_process
 from pokec_processing.pokec_CatGCN_pre_processing import pokec_z_CatGCN_pre_process
-from RHGN.ali_main import ali_training_main
-from RHGN.jd_main import tecent_training_main
-from CatGCN.train_main import train_CatGCN
-from fainress_component import fairness_calculation, disparate_impact_remover, reweighting, lfr
+from models.RHGN.ali_main import ali_training_main
+from models.RHGN.jd_main import tecent_training_main 
+from models.CatGCN.train_main import train_CatGCN 
+from fainress_component import fairness_calculation
 import dgl
 import torch
 import pandas as pd
