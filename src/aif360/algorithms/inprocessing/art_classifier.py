@@ -1,7 +1,7 @@
 import numpy as np
 
-from aif360.datasets import BinaryLabelDataset
-from aif360.algorithms import Transformer
+from src.aif360.datasets import BinaryLabelDataset
+from src.aif360.algorithms import Transformer
 
 
 class ARTClassifier(Transformer):

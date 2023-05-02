@@ -5,7 +5,7 @@ from zipfile import ZipFile
 import pandas as pd
 import requests
 
-from aif360.sklearn.datasets.utils import standardize_dataset
+from src.aif360.sklearn.datasets.utils import standardize_dataset
 
 
 # cache location

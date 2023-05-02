@@ -1,4 +1,4 @@
-from aif360.datasets import AdultDataset, GermanDataset, CompasDataset
+from src.aif360.datasets import AdultDataset, GermanDataset, CompasDataset
 import pandas as pd
 import numpy as np
 

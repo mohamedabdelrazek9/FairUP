@@ -1,5 +1,5 @@
 import numpy as np
-from aif360.detectors.mdss.ScoringFunctions.ScoringFunction import ScoringFunction
+from src.aif360.detectors.mdss.ScoringFunctions.ScoringFunction import ScoringFunction
 
 
 def bisection_q_mle(score_function: ScoringFunction, observed_sum: float, probs: np.array, **kwargs):

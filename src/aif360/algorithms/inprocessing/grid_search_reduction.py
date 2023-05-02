@@ -13,8 +13,8 @@ except ImportError as error:
             "pip install 'aif360[Reductions]'".format(error))
 import pandas as pd
 
-from aif360.algorithms import Transformer
-from aif360.sklearn.inprocessing import GridSearchReduction as skGridSearchRed
+from src.aif360.algorithms import Transformer
+from src.aif360.sklearn.inprocessing import GridSearchReduction as skGridSearchRed
 
 
 class GridSearchReduction(Transformer):

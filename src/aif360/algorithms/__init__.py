@@ -1,1 +1,1 @@
-from aif360.algorithms.transformer import Transformer, addmetadata
+from src.aif360.algorithms.transformer import Transformer, addmetadata

@@ -2,9 +2,9 @@ from itertools import product
 
 import numpy as np
 
-from aif360.metrics import BinaryLabelDatasetMetric, utils
-from aif360.datasets import BinaryLabelDataset
-from aif360.datasets.multiclass_label_dataset import MulticlassLabelDataset
+from src.aif360.metrics import BinaryLabelDatasetMetric, utils
+from src.aif360.datasets import BinaryLabelDataset
+from src.aif360.datasets.multiclass_label_dataset import MulticlassLabelDataset
 
 
 class ClassificationMetric(BinaryLabelDatasetMetric):

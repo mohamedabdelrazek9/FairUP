@@ -1,9 +1,9 @@
 import numpy as np
 from warnings import warn
 
-from aif360.algorithms import Transformer
-from aif360.metrics import utils
-from aif360.metrics import BinaryLabelDatasetMetric, ClassificationMetric
+from src.aif360.algorithms import Transformer
+from src.aif360.metrics import utils
+from src.aif360.metrics import BinaryLabelDatasetMetric, ClassificationMetric
 
 
 class RejectOptionClassification(Transformer):

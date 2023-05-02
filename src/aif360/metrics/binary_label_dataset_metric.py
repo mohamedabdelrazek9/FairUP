@@ -1,10 +1,10 @@
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
-from aif360.algorithms.inprocessing.gerryfair.auditor import Auditor
-from aif360.datasets import BinaryLabelDataset
-from aif360.datasets.multiclass_label_dataset import MulticlassLabelDataset
-from aif360.metrics import DatasetMetric, utils
-from aif360.algorithms.inprocessing.gerryfair.clean import *
+from src.aif360.algorithms.inprocessing.gerryfair.auditor import Auditor
+from src.aif360.datasets import BinaryLabelDataset
+from src.aif360.datasets.multiclass_label_dataset import MulticlassLabelDataset
+from src.aif360.metrics import DatasetMetric, utils
+from src.aif360.algorithms.inprocessing.gerryfair.clean import *
 
 
 class BinaryLabelDatasetMetric(DatasetMetric):

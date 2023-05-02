@@ -2,16 +2,18 @@ from cProfile import label
 import numpy as np
 import pandas as pd
 import networkx as nx
-from aif360.datasets import BinaryLabelDataset
-from aif360.algorithms.preprocessing import DisparateImpactRemover, Reweighing, LFR
-from aif360.metrics import BinaryLabelDatasetMetric
+import os 
+from src.aif360.datasets import BinaryLabelDataset
+from src.aif360.algorithms.preprocessing import DisparateImpactRemover, Reweighing, LFR
+from src.aif360.metrics import BinaryLabelDatasetMetric
 
 
 def fairness_calculation(dataset_name, sens_attr, predict_attr):
 
     if dataset_name == 'nba':
-        dataset_path = '/datasets/NBA/nba.csv'
-        fairness_calculation_nba(dataset_path, sens_attr, predict_attr)
+        #dataset_path = 'FairUP\src\datasets\NBA'
+        dataset_path = 'src/datasets/NBA/nba.csv'
+        fairness_calc = fairness_calculation_nba(dataset_path, sens_attr, predict_attr)
     
     elif dataset_name == 'alibaba':
         dataset_path = '/datasets/NBA/nba.csv'
@@ -22,8 +24,10 @@ def fairness_calculation(dataset_name, sens_attr, predict_attr):
         fairness_calculation_tecent(dataset_path, sens_attr, predict_attr)
 
     elif dataset_name == 'pokec_z' or dataset_name == 'pokec_n':
-        dataset_path = '/datasets/NBA/nba.csv'
-        fairness_calculation_pokec(dataset_path, dataset_path, sens_attr, predict_attr)
+        dataset_path = 'src/datasets/pokec/region_job.csv'
+        fairness_calc = fairness_calculation_pokec(dataset_path, dataset_path, sens_attr, predict_attr)
+
+    return fairness_calc
 
 
 def fairness_calculation_nba(dataset_path, sens_attr, predict_attr):
@@ -43,7 +47,8 @@ def fairness_calculation_nba(dataset_path, sens_attr, predict_attr):
 
     #dataset_fairness(df, sens_attr, predict_attr)
 
-    disparate_impact(df, sens_attr, predict_attr)
+    disp = disparate_impact(df, sens_attr, predict_attr)
+    return disp
 
 def fairness_calculation_alibaba(dataset_path, sens_attr, label):
    # data = nx.read_graphml(dataset_path)
@@ -134,7 +139,8 @@ def fairness_calculation_pokec(dataset_path, dataset_name, sens_attr, label):
 
     #dataset_fairness(df, sens_attr, label)
 
-    disparate_impact(df, sens_attr, label)
+    disp = disparate_impact(df, sens_attr, label)
+    return disp
 
 def dataset_fairness(df, sens_attr, label):
     total_number_of_sens0 = len(df.loc[df[sens_attr] == 0])
@@ -173,6 +179,7 @@ def disparate_impact(df, sens_attr, label):
 
     # just for comparison
     print('Dataset Fairness:', disp)
+    return disp
     #print("Disparate impact (from AIF360) = %f" %metric_dataset.disparate_impact()) 
 
 

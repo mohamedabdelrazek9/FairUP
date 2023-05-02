@@ -1,10 +1,10 @@
 from typing import Union
 
-from aif360.datasets import BinaryLabelDataset
-from aif360.metrics import ClassificationMetric
+from src.aif360.datasets import BinaryLabelDataset
+from src.aif360.metrics import ClassificationMetric
 
-from aif360.detectors.mdss.ScoringFunctions import Bernoulli, BerkJones, ScoringFunction
-from aif360.detectors.mdss.MDSS import MDSS
+from src.aif360.detectors.mdss.ScoringFunctions import Bernoulli, BerkJones, ScoringFunction
+from src.aif360.detectors.mdss.MDSS import MDSS
 
 import pandas as pd
 from sklearn.utils.deprecation import deprecated

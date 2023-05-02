@@ -1,5 +1,5 @@
-from aif360.explainers import Explainer
-from aif360.metrics import Metric
+from src.aif360.explainers import Explainer
+from src.aif360.metrics import Metric
 
 
 class MetricTextExplainer(Explainer):

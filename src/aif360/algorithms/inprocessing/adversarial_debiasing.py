@@ -7,7 +7,7 @@ except ImportError as error:
     warning("{}: AdversarialDebiasing will be unavailable. To install, run:\n"
             "pip install 'aif360[AdversarialDebiasing]'".format(error))
 
-from aif360.algorithms import Transformer
+from src.aif360.algorithms import Transformer
 
 
 class AdversarialDebiasing(Transformer):

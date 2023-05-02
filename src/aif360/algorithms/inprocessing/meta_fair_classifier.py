@@ -2,9 +2,9 @@
 # See: https://github.com/vijaykeswani/FairClassification
 import numpy as np
 
-from aif360.algorithms import Transformer
-from aif360.algorithms.inprocessing.celisMeta import FalseDiscovery
-from aif360.algorithms.inprocessing.celisMeta import StatisticalRate
+from src.aif360.algorithms import Transformer
+from src.aif360.algorithms.inprocessing.celisMeta import FalseDiscovery
+from src.aif360.algorithms.inprocessing.celisMeta import StatisticalRate
 
 class MetaFairClassifier(Transformer):
     """The meta algorithm here takes the fairness metric as part of the input

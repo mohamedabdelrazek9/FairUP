@@ -1,8 +1,8 @@
 from collections import OrderedDict
 import json
 
-from aif360.explainers import MetricTextExplainer
-from aif360.metrics import BinaryLabelDatasetMetric
+from src.aif360.explainers import MetricTextExplainer
+from src.aif360.metrics import BinaryLabelDatasetMetric
 
 
 class MetricJSONExplainer(MetricTextExplainer):

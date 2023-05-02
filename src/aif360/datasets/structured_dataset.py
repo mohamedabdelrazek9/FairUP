@@ -6,7 +6,7 @@ from logging import warning
 import numpy as np
 import pandas as pd
 
-from aif360.datasets import Dataset
+from src.aif360.datasets import Dataset
 
 
 class StructuredDataset(Dataset):

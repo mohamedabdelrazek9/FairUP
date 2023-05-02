@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 
-from aif360.datasets import StandardDataset
+from src.aif360.datasets import StandardDataset
 
 default_mappings = {
     'label_maps': [{1.0: '>= 10 Visits', 0.0: '< 10 Visits'}],

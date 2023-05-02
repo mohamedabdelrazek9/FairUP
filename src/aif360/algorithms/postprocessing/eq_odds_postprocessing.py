@@ -31,8 +31,8 @@
 import numpy as np
 from scipy.optimize import linprog
 
-from aif360.algorithms import Transformer
-from aif360.metrics import ClassificationMetric, utils
+from src.aif360.algorithms import Transformer
+from src.aif360.metrics import ClassificationMetric, utils
 
 
 class EqOddsPostprocessing(Transformer):

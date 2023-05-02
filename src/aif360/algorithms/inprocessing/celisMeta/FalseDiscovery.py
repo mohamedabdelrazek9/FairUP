@@ -1,6 +1,6 @@
 import numpy as np
 
-from aif360.algorithms.inprocessing.celisMeta.General import General
+from src.aif360.algorithms.inprocessing.celisMeta.General import General
 
 
 class FalseDiscovery(General):

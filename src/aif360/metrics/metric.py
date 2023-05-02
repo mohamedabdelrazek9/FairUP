@@ -2,8 +2,8 @@ from abc import abstractmethod
 from collections.abc import Hashable
 from functools import wraps
 
-from aif360.datasets import Dataset
-from aif360.decorating_metaclass import ApplyDecorator
+from src.aif360.datasets import Dataset
+from src.aif360.decorating_metaclass import ApplyDecorator
 
 
 def _make_key(args, kwargs, unhashable, kwd_mark=(object(),)):

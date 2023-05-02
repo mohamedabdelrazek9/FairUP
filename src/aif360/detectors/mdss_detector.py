@@ -1,13 +1,13 @@
 from typing import Union
 
-from aif360.detectors.mdss.ScoringFunctions import (
+from src.aif360.detectors.mdss.ScoringFunctions import (
     Bernoulli,
     BerkJones,
     Gaussian,
     ScoringFunction,
     Poisson,
 )
-from aif360.detectors.mdss.MDSS import MDSS
+from src.aif360.detectors.mdss.MDSS import MDSS
 
 import pandas as pd
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-from aif360.algorithms import Transformer
+from src.aif360.algorithms import Transformer
 
 
 class DisparateImpactRemover(Transformer):

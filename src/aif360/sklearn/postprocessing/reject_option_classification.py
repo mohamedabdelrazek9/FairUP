@@ -5,12 +5,12 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.model_selection import GridSearchCV
 from sklearn.utils.validation import check_is_fitted
 
-from aif360.sklearn.metrics import statistical_parity_difference
-from aif360.sklearn.metrics import average_odds_error
-from aif360.sklearn.metrics import equal_opportunity_difference
-from aif360.sklearn.metrics import disparate_impact_ratio
-from aif360.sklearn.metrics import make_scorer
-from aif360.sklearn.utils import check_groups
+from src.aif360.sklearn.metrics import statistical_parity_difference
+from src.aif360.sklearn.metrics import average_odds_error
+from src.aif360.sklearn.metrics import equal_opportunity_difference
+from src.aif360.sklearn.metrics import disparate_impact_ratio
+from src.aif360.sklearn.metrics import make_scorer
+from src.aif360.sklearn.utils import check_groups
 
 
 class RejectOptionClassifier(BaseEstimator, ClassifierMixin):

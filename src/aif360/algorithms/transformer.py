@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from functools import wraps
 
-from aif360.datasets import Dataset
-from aif360.decorating_metaclass import ApplyDecorator
+from src.aif360.datasets import Dataset
+from src.aif360.decorating_metaclass import ApplyDecorator
 
 
 # TODO: Use sklearn.exceptions.NotFittedError instead?

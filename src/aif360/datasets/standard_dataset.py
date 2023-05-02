@@ -3,7 +3,7 @@ from logging import warning
 import numpy as np
 import pandas as pd
 
-from aif360.datasets import BinaryLabelDataset
+from src.aif360.datasets import BinaryLabelDataset
 
 
 class StandardDataset(BinaryLabelDataset):
