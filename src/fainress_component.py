@@ -7,18 +7,22 @@ from aif360.algorithms.preprocessing import DisparateImpactRemover, Reweighing, 
 from aif360.metrics import BinaryLabelDatasetMetric
 
 
-def fairness_calculation(dataset_name, dataset_path, sens_attr, predict_attr):
+def fairness_calculation(dataset_name, sens_attr, predict_attr):
 
     if dataset_name == 'nba':
+        dataset_path = '/datasets/NBA/nba.csv'
         fairness_calculation_nba(dataset_path, sens_attr, predict_attr)
     
     elif dataset_name == 'alibaba':
+        dataset_path = '/datasets/NBA/nba.csv'
         fairness_calculation_alibaba(dataset_path, sens_attr, predict_attr)
 
     elif dataset_name == 'tecent':
+        dataset_path = '/datasets/NBA/nba.csv'
         fairness_calculation_tecent(dataset_path, sens_attr, predict_attr)
 
     elif dataset_name == 'pokec_z' or dataset_name == 'pokec_n':
+        dataset_path = '/datasets/NBA/nba.csv'
         fairness_calculation_pokec(dataset_path, dataset_path, sens_attr, predict_attr)
 
 
