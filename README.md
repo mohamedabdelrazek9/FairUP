@@ -51,7 +51,7 @@ Notes:
 * the dependencies including `cu113` are meant to run on **CUDA 11.3** (install the correct package based on your version of CUDA).
 
 ## Demonstration
-* [Web app](https://mohamedabdelrazek9-fairup-homepage-gv365a.streamlit.app/)
+* [Web app](https://huggingface.co/spaces/erasmopurif/FairUP)
 * [Demo video](https://bit.ly/FairUP-demo-video)
 
 ## Next steps
@@ -59,5 +59,5 @@ Notes:
 - [ ] Adding more datasets and fairness metrics.
 
 ## Contact
-- **M.Sc. Erasmo Purificato: erasmo.purificato@ovgu.com**
+- **M.Sc. Erasmo Purificato: erasmo.purificato@ovgu.de**
 - **M.Sc. Mohamed Abdelrazek: mimo.1998@hotmail.com**
