@@ -11,6 +11,7 @@ import re
 import subprocess
 from presets import Presets
 import random
+from src.fainress_component import fairness_calculation
 #from src import main
 
 
@@ -443,13 +444,14 @@ elif preset_question == 'No':
             #    file.write(environment.replace('prefix: /', ''))
             #os.system('conda env create --file test_new.yml --name streamlit_env_new')
             #os.system('conda activate streamlit_env_new')
-            commands = os.popen('cd src && python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
-            
+            #commands = os.popen('cd src && python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
+            fairness_calc = fairness_calculation(dataset, sens_attr, predict_attr)
+            st.write('Fairness calculation:', fairness_calc)
             #output = os.popen('cd')
             #output = os.popen('python main.py --calc_fairness True --dataset_name nba --dataset_path ./datasets/NBA/nba.csv --special_case True --sens_attr country --predict_attr SALARY --type 1').read()
             #st.text(output)
             
-            print(commands)
+            #print(commands)
         
 
     #####################

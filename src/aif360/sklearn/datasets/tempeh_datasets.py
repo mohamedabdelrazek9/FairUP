@@ -6,7 +6,7 @@ except ImportError as error:
     warning("{}: fetch_lawschool_gpa will be unavailable. To install, run:\n"
             "pip install 'aif360[LawSchoolGPA]'".format(error))
 
-from aif360.sklearn.datasets.utils import standardize_dataset
+from src.aif360.sklearn.datasets.utils import standardize_dataset
 
 
 def fetch_lawschool_gpa(subset="all", *, usecols=None, dropcols=None,

@@ -9,8 +9,8 @@ from sklearn.base import BaseEstimator, MetaEstimatorMixin, clone
 from sklearn.model_selection import train_test_split
 from sklearn.utils.metaestimators import if_delegate_has_method
 
-from aif360.sklearn.postprocessing.calibrated_equalized_odds import CalibratedEqualizedOdds
-from aif360.sklearn.postprocessing.reject_option_classification import RejectOptionClassifier, RejectOptionClassifierCV
+from src.aif360.sklearn.postprocessing.calibrated_equalized_odds import CalibratedEqualizedOdds
+from src.aif360.sklearn.postprocessing.reject_option_classification import RejectOptionClassifier, RejectOptionClassifierCV
 
 
 class PostProcessingMeta(BaseEstimator, MetaEstimatorMixin):

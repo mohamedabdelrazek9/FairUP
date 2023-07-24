@@ -14,7 +14,7 @@ except ImportError as error:
             "pip install 'aif360[FairAdapt]'".format(error))
 from sklearn.base import BaseEstimator
 
-from aif360.sklearn.utils import check_inputs, check_groups
+from src.aif360.sklearn.utils import check_inputs, check_groups
 
 
 class FairAdapt(BaseEstimator):

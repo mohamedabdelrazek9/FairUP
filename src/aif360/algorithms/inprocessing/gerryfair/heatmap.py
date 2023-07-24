@@ -21,7 +21,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
-from aif360.algorithms.inprocessing.gerryfair.reg_oracle_class import *
+from src.aif360.algorithms.inprocessing.gerryfair.reg_oracle_class import *
 
 
 def calc_disp(predictions, X, group_labels, X_prime, group):

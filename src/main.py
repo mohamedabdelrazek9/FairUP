@@ -488,7 +488,7 @@ def RHGN_pre_processing(data_extension):
 
 if args.type == 1:
     if(args.calc_fairness):
-        fairness_calculation(args.dataset_name, args.dataset_path, args.sens_attr, args.predict_attr)
+        fairness_calculation(args.dataset_name, args.sens_attr, args.predict_attr)
     #if 'FairGNN' in args.model_type:
         fair_pre_processing = FairGNN_pre_processing(data_extension)
     if 'CatGCN' in args.model_type:

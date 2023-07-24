@@ -1,7 +1,7 @@
 from typing import Union
 
-from aif360.detectors import bias_scan
-from aif360.detectors.mdss.ScoringFunctions import ScoringFunction
+from src.aif360.detectors import bias_scan
+from src.aif360.detectors.mdss.ScoringFunctions import ScoringFunction
 
 import pandas as pd
 

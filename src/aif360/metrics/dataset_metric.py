@@ -1,7 +1,7 @@
 import numpy as np
 
-from aif360.datasets import StructuredDataset
-from aif360.metrics import Metric, utils
+from src.aif360.datasets import StructuredDataset
+from src.aif360.metrics import Metric, utils
 
 
 class DatasetMetric(Metric):

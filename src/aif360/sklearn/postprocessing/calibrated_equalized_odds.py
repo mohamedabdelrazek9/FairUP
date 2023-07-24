@@ -3,9 +3,9 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_is_fitted
 
-from aif360.sklearn.metrics import difference, base_rate
-from aif360.sklearn.metrics import generalized_fnr, generalized_fpr
-from aif360.sklearn.utils import check_inputs, check_groups
+from src.aif360.sklearn.metrics import difference, base_rate
+from src.aif360.sklearn.metrics import generalized_fnr, generalized_fpr
+from src.aif360.sklearn.utils import check_inputs, check_groups
 
 
 class CalibratedEqualizedOdds(BaseEstimator, ClassifierMixin):

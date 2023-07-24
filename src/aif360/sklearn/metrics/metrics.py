@@ -10,9 +10,9 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import check_X_y
 from sklearn.utils.deprecation import deprecated
 
-from aif360.sklearn.utils import check_inputs, check_groups
-from aif360.detectors.mdss.ScoringFunctions import BerkJones, Bernoulli
-from aif360.detectors.mdss.MDSS import MDSS
+from src.aif360.sklearn.utils import check_inputs, check_groups
+from src.aif360.detectors.mdss.ScoringFunctions import BerkJones, Bernoulli
+from src.aif360.detectors.mdss.MDSS import MDSS
 
 __all__ = [
     # meta-metrics

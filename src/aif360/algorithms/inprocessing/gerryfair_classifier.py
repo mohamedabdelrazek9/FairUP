@@ -21,12 +21,12 @@ kernel methods, and support vector machines. For usage examples refer to example
 
 
 import copy
-from aif360.algorithms.inprocessing.gerryfair import heatmap
-from aif360.algorithms.inprocessing.gerryfair.clean import array_to_tuple
-from aif360.algorithms.inprocessing.gerryfair.learner import Learner
-from aif360.algorithms.inprocessing.gerryfair.auditor import *
-from aif360.algorithms.inprocessing.gerryfair.classifier_history import ClassifierHistory
-from aif360.algorithms import Transformer
+from src.aif360.algorithms.inprocessing.gerryfair import heatmap
+from src.aif360.algorithms.inprocessing.gerryfair.clean import array_to_tuple
+from src.aif360.algorithms.inprocessing.gerryfair.learner import Learner
+from src.aif360.algorithms.inprocessing.gerryfair.auditor import *
+from src.aif360.algorithms.inprocessing.gerryfair.classifier_history import ClassifierHistory
+from src.aif360.algorithms import Transformer
 
 
 class GerryFairClassifier(Transformer):

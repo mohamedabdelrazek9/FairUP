@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from aif360.datasets import RegressionDataset
+from src.aif360.datasets import RegressionDataset
 try:
     import tempeh.configurations as tc
 except ImportError as error:

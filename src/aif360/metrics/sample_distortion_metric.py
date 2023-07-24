@@ -2,8 +2,8 @@ from functools import partial
 import numpy as np
 import scipy.spatial.distance as scdist
 
-from aif360.datasets import StructuredDataset
-from aif360.metrics import DatasetMetric, utils
+from src.aif360.datasets import StructuredDataset
+from src.aif360.metrics import DatasetMetric, utils
 
 
 class SampleDistortionMetric(DatasetMetric):

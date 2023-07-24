@@ -17,7 +17,7 @@ except ImportError as error:
     warning("{}: LearnedFairRepresentations will be unavailable. To install, run:\n"
             "pip install 'aif360[LFR]'".format(error))
 
-from aif360.sklearn.utils import check_inputs, check_groups
+from src.aif360.sklearn.utils import check_inputs, check_groups
 
 
 class LearnedFairRepresentations(BaseEstimator, ClassifierMixin, TransformerMixin):

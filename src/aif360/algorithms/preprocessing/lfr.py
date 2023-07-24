@@ -1,8 +1,8 @@
 import numpy as np
 import scipy.optimize as optim
 
-from aif360.algorithms import Transformer
-from aif360.algorithms.preprocessing.lfr_helpers import helpers as lfr_helpers
+from src.aif360.algorithms import Transformer
+from src.aif360.algorithms.preprocessing.lfr_helpers import helpers as lfr_helpers
 
 
 class LFR(Transformer):

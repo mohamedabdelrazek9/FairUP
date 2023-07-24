@@ -73,7 +73,7 @@ import tempfile
 import os
 import subprocess
 
-from aif360.algorithms import Transformer
+from src.aif360.algorithms import Transformer
 
 
 class PrejudiceRemover(Transformer):

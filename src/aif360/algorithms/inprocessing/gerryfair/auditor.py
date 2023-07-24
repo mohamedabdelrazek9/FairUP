@@ -23,8 +23,8 @@ Basic Usage:
 import numpy as np
 import pandas as pd
 from sklearn import linear_model
-from aif360.algorithms.inprocessing.gerryfair.reg_oracle_class import RegOracle
-from aif360.algorithms.inprocessing.gerryfair import clean
+from src.aif360.algorithms.inprocessing.gerryfair.reg_oracle_class import RegOracle
+from src.aif360.algorithms.inprocessing.gerryfair import clean
 
 
 class Group(object):

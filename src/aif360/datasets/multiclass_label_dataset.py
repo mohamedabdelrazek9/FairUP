@@ -1,6 +1,6 @@
 import numpy as np
 
-from aif360.datasets import StructuredDataset
+from src.aif360.datasets import StructuredDataset
 '''
 Multiclass supports the multiple values in the favorable and unfavorable label's
 '''

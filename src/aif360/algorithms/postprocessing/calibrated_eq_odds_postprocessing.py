@@ -30,8 +30,8 @@
 # specific language governing permissions and limitations under the License.
 import numpy as np
 
-from aif360.algorithms import Transformer
-from aif360.metrics import ClassificationMetric, utils
+from src.aif360.algorithms import Transformer
+from src.aif360.metrics import ClassificationMetric, utils
 
 
 class CalibratedEqOddsPostprocessing(Transformer):

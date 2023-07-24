@@ -14,8 +14,8 @@ from warnings import warn
 import numpy as np
 import pandas as pd
 
-from aif360.algorithms import Transformer
-from aif360.datasets import BinaryLabelDataset
+from src.aif360.algorithms import Transformer
+from src.aif360.datasets import BinaryLabelDataset
 
 
 class OptimPreproc(Transformer):

@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 
-from aif360.datasets import StandardDataset
+from src.aif360.datasets import StandardDataset
 
 
 default_mappings = {

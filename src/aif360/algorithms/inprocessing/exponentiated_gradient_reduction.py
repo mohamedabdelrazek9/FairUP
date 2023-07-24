@@ -8,8 +8,8 @@ from logging import warning
 
 import pandas as pd
 
-from aif360.algorithms import Transformer
-from aif360.sklearn.inprocessing import ExponentiatedGradientReduction as skExpGradRed
+from src.aif360.algorithms import Transformer
+from src.aif360.sklearn.inprocessing import ExponentiatedGradientReduction as skExpGradRed
 
 
 class ExponentiatedGradientReduction(Transformer):

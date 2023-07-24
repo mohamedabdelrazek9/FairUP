@@ -11,7 +11,7 @@ except ImportError as error:
     warning("{}: AdversarialDebiasing will be unavailable. To install, run:\n"
             "pip install 'aif360[AdversarialDebiasing]'".format(error))
 
-from aif360.sklearn.utils import check_inputs, check_groups
+from src.aif360.sklearn.utils import check_inputs, check_groups
 
 
 class AdversarialDebiasing(BaseEstimator, ClassifierMixin):

@@ -1,7 +1,7 @@
 import numpy as np
 
-from aif360.algorithms import Transformer
-from aif360.metrics import utils
+from src.aif360.algorithms import Transformer
+from src.aif360.metrics import utils
 
 
 class Reweighing(Transformer):

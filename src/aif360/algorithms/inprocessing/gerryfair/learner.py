@@ -11,7 +11,7 @@
 
 import numpy as np
 import copy
-from aif360.algorithms.inprocessing.gerryfair.reg_oracle_class import RegOracle
+from src.aif360.algorithms.inprocessing.gerryfair.reg_oracle_class import RegOracle
 
 
 class Learner:

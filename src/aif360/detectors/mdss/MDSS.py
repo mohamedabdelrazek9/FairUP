@@ -1,8 +1,8 @@
-from aif360.detectors.mdss.ScoringFunctions.ScoringFunction import ScoringFunction
-from aif360.detectors.mdss.generator import get_entire_subset, get_random_subset
+from src.aif360.detectors.mdss.ScoringFunctions.ScoringFunction import ScoringFunction
+from src.aif360.detectors.mdss.generator import get_entire_subset, get_random_subset
 
 
-from aif360.detectors.mdss.ScoringFunctions import (
+from src.aif360.detectors.mdss.ScoringFunctions import (
     Bernoulli,
     BerkJones,
     Gaussian,
